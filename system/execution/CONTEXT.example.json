@@ -1,0 +1,44 @@
+{
+  "contextId": "exec-2025-001",
+  "createdAt": "2025-01-01T09:00:00Z",
+  "expiresAt": "2025-01-01T11:00:00Z",
+  "authorityRef": {
+    "layer": "execution-entry",
+    "path": "/system/execution/ENTRYPOINT.md",
+    "summary": "Authorized execution under explicit execution entry contract."
+  },
+  "scope": {
+    "allowedActions": [
+      "read-repository",
+      "generate-documentation",
+      "propose-changes"
+    ],
+    "deniedActions": [
+      "modify-governance",
+      "override-control",
+      "self-extend-scope"
+    ],
+    "resourceBounds": {
+      "paths": [
+        "/system/",
+        "/docs/"
+      ],
+      "netAccess": "none",
+      "secretsAccess": "none"
+    }
+  },
+  "interruptHandle": {
+    "mode": "human",
+    "owner": "system-owner",
+    "instructions": "Pause execution immediately and await human review."
+  },
+  "escalationPolicy": {
+    "default": "pause",
+    "onConflict": "pause-and-escalate",
+    "onUncertainty": "stop-and-escalate"
+  },
+  "audit": {
+    "logLevel": "standard",
+    "traceId": "trace-9f3a21"
+  }
+}
