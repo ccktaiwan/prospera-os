@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prospera-os.local/system/execution/CONTEXT.schema.json",
+  "title": "Prospera OS Execution Context",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contextId",
+    "createdAt",
+    "expiresAt",
+    "authorityRef",
+    "scope",
+    "interruptHandle",
+    "escalationPolicy"
+  ],
+  "properties": {
+    "contextId": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Unique execution context identifier."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Context creation timestamp (ISO 8601)."
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Context expiration timestamp (ISO 8601). Execution must stop after this time."
+    },
+    "authorityRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer", "path", "summary"],
+      "properties": {
+        "layer": {
+          "type": "string",
+          "enum": ["governance", "control", "execution-entry"],
+          "description": "Source layer for authority reference."
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Repository path to the authorizing document (e.g. /governance/GOVERNANCE.md)."
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable summary of the authorization basis."
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowedActions", "deniedActions", "resourceBounds"],
+      "properties": {
+        "allowedActions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "description": "Explicitly allowed actions."
+        },
+        "deniedActions": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Explicitly denied actions (always override allowedActions)."
+        },
+        "resourceBounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["paths", "netAccess", "secretsAccess"],
+          "properties": {
+            "paths": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 },
+              "minItems": 1,
+              "description": "Repository or system paths the execution may touch."
+            },
+            "netAccess": {
+              "type": "string",
+              "enum": ["none", "restricted", "allowed"],
+              "description": "Network access level."
+            },
+            "secretsAccess": {
+              "type": "string",
+              "enum": ["none", "read-only", "allowed"],
+              "description": "Secrets access level."
+            }
+          }
+        }
+      }
+    },
+    "interruptHandle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "owner", "instructions"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["human", "system", "hybrid"],
+          "description": "How interruption is triggered."
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Who owns the interruption authority."
+        },
+        "instructions": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Clear steps to pause/terminate execution."
+        }
+      }
+    },
+    "escalationPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default", "onConflict", "onUncertainty"],
+      "properties": {
+        "default": {
+          "type": "string",
+          "enum": ["pause", "stop"],
+          "description": "Default safe behavior."
+        },
+        "onConflict": {
+          "type": "string",
+          "enum": ["pause-and-escalate", "stop-and-escalate"],
+          "description": "Behavior when constraints conflict."
+        },
+        "onUncertainty": {
+          "type": "string",
+          "enum": ["pause-and-escalate", "stop-and-escalate"],
+          "description": "Behavior when execution cannot prove safety."
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logLevel", "traceId"],
+      "properties": {
+        "logLevel": {
+          "type": "string",
+          "enum": ["minimal", "standard", "verbose"],
+          "description": "Audit verbosity requirement."
+        },
+        "traceId": {
+          "type": "string",
+          "minLength": 6,
+          "description": "Trace identifier for correlating logs."
+        }
+      }
+    }
+  }
+}
