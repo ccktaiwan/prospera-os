@@ -1,0 +1,22 @@
+{
+  "demo_phase": "phase_1",
+  "allowed_layers": [
+    "execution",
+    "operation"
+  ],
+  "forbidden_layers": [
+    "kernel",
+    "governance",
+    "system"
+  ],
+  "execution_constraints": {
+    "max_pipelines": 1,
+    "parallel_execution": false,
+    "autonomous_behavior": false,
+    "learning_enabled": false
+  },
+  "state_management": {
+    "ssot_required": true,
+    "external_persistence_allowed": false
+  },
+  "governance_en_
