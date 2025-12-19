@@ -1,5 +1,16 @@
 #繁榮時代（Prospera OS）
 A Governance-First Enterprise Execution Operating System
+## Governance First
+
+Prospera OS is governed by an explicit, authority-first governance layer.
+
+All system design, execution logic, automation, delegation, and AI-assisted behavior
+MUST conform to the governance documents defined in:
+
+→ `/governance/`
+
+Where conflicts arise, interpretation flows strictly top-down.
+
 Prospera Operating System — a governance-first enterprise execution OS integrating Codex-based generation, human-in-the-loop control, and canonical system design.
 ---
 
