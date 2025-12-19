@@ -1,0 +1,89 @@
+{
+  "pipeline_id": "phase1.demo.single_pipeline",
+  "version": "1.0.0",
+  "mode": "enforcement",
+
+  "entry_requirements": {
+    "phase": "phase_1",
+    "scope_ref": "demo/demo_scope.phase1.json"
+  },
+
+  "execution_constraints": {
+    "parallel_execution": false,
+    "self_modification": false,
+    "learning_enabled": false,
+    "rule_override_allowed": false
+  },
+
+  "states": {
+    "S0_INIT": {
+      "required_inputs": ["phase", "scope_ref"],
+      "on_success": "S1_GOVERNANCE_CHECK",
+      "on_failure": "STOP_INVALID_ENTRY"
+    },
+
+    "S1_GOVERNANCE_CHECK": {
+      "checks": [
+        "canonical_mapping_valid",
+        "no_kernel_or_governance_touch"
+      ],
+      "on_success": "S2_SCOPE_VALIDATION",
+      "on_failure": "STOP_GOVERNANCE_VIOLATION"
+    },
+
+    "S2_SCOPE_VALIDATION": {
+      "checks": [
+        "behavior_within_demo_scope"
+      ],
+      "on_success": "S3_EXECUTION",
+      "on_failure": "STOP_SCOPE_VIOLATION"
+    },
+
+    "S3_EXECUTION": {
+      "allowed_modes": ["mock", "stub", "human_in_loop"],
+      "forbidden_conditions": [
+        "rule_change_required",
+        "governance_bypass"
+      ],
+      "on_success": "S4_STOP_CONDITION_CHECK",
+      "on_failure": "STOP_RULE_CHANGE_REQUIRED"
+    },
+
+    "S4_STOP_CONDITION_CHECK": {
+      "checks": [
+        "stop_condition_defined",
+        "stop_condition_reachable"
+      ],
+      "on_success": "S5_FINAL_STOP",
+      "on_failure": "STOP_UNCLEAR_STATE"
+    },
+
+    "S5_FINAL_STOP": {
+      "final": true,
+      "assertions": [
+        "kernel_unchanged",
+        "governance_unchanged",
+        "execution_auditable"
+      ]
+    }
+  },
+
+  "stop_states": [
+    "STOP_INVALID_ENTRY",
+    "STOP_GOVERNANCE_VIOLATION",
+    "STOP_SCOPE_VIOLATION",
+    "STOP_RULE_CHANGE_REQUIRED",
+    "STOP_UNCLEAR_STATE"
+  ],
+
+  "success_criteria": {
+    "full_cycle_completed": true,
+    "no_governance_violation": true,
+    "explicit_stop_reached": true
+  },
+
+  "authority": {
+    "stop_authority": "prospera.kernel.owner",
+    "override_allowed": false
+  }
+}
