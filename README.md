@@ -1,4 +1,5 @@
-# prospera-os
+#繁榮時代（Prospera OS）
+A Governance-First Enterprise Execution Operating System
 Prospera Operating System — a governance-first enterprise execution OS integrating Codex-based generation, human-in-the-loop control, and canonical system design.
 ---
 
