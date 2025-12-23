@@ -2,6 +2,8 @@
 A Governance-First Enterprise Execution Operating System
 ## Governance First
 
+Prospera OS is an enterprise operating system in which all execution — including AI-assisted generation, automated processes, and human-initiated actions — is strictly governed by a non-overridable governance kernel. The kernel determines, in real time, what actions may be permitted, blocked, or escalated, and cannot be bypassed by downstream logic or tools.
+
 Prospera OS is governed by an explicit, authority-first governance layer.
 
 All system design, execution logic, automation, delegation, and AI-assisted behavior
@@ -11,15 +13,9 @@ MUST conform to the governance documents defined in:
 
 Where conflicts arise, interpretation flows strictly top-down.
 
-Prospera Operating System — a governance-first enterprise execution OS integrating Codex-based generation, human-in-the-loop control, and canonical system design.
----
-
-# Prospera OS
-
-**A Governance-First Enterprise Execution Operating System**
-
-Prospera OS is not a traditional software product, framework, or developer toolkit.
-It is a **governance-first enterprise execution operating system** designed to integrate **Codex-based generation** into real organizational decision-making, execution, and accountability structures.
+16 Prospera OS is not a traditional software product, framework, or developer toolkit.
+17 It is a governance-first enterprise execution operating system designed to integrate Codex-based generation ...
+into real organizational decision-making, execution, and accountability structures.
 
 This repository exists to **define how AI can be governed before it is scaled**.
 
