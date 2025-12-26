@@ -1,5 +1,20 @@
 #繁榮時代（Prospera OS）
 A Governance-First Enterprise Execution Operating System
+---
+
+## Relationship to Prospera Intelligence
+
+Prospera OS is an execution-layer operating system within the Prospera ecosystem.
+
+Its existence, purpose, and governing philosophy are defined by **Prospera Intelligence**, the human-centric intelligence foundation that establishes why Prospera exists and what principles must remain invariant across generations of technology.
+
+Prospera OS does **not** define intelligence, purpose, or governance philosophy.  
+It implements execution logic, enforcement mechanisms, and operational constraints derived from the higher-order definitions established by Prospera Intelligence.
+
+→ Source of Truth: https://github.com/ccktaiwan/prospera-intelligence
+
+---
+
 ## Governance First
 
 Prospera OS is an enterprise operating system in which all execution — including AI-assisted generation, automated processes, and human-initiated actions — is strictly governed by a non-overridable governance kernel. The kernel determines, in real time, what actions may be permitted, blocked, or escalated, and cannot be bypassed by downstream logic or tools.
