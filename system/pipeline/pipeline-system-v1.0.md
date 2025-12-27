@@ -6,329 +6,249 @@ Status: Stable
 Owner: Prospera Architecture Group
 Category: System Specification
 
-────────────────────────────────
+────────────────────────────────────
 
 1. Purpose
 
-The Pipeline System defines the deterministic execution pipeline through which all actions, requests, contracts, and system operations must pass inside Prospera OS.
+The Pipeline System defines the deterministic, step-based execution routing model of Prospera OS.
+It governs how all systems and engines progress from one execution phase to the next while ensuring:
 
-Its objectives are:
+deterministic ordering
 
-• enforce ordered, deterministic execution
-• prevent unsafe or unauthorized operations
-• ensure system-wide synchronization
-• serialize concurrent operations safely
-• eliminate race conditions
-• apply safety and governance checks before and after execution
-• maintain the integrity of Memory, Identity, Intent, and SSOT
+stable state propagation
 
-The Pipeline System does not execute logic; execution is performed by Engines.
-Pipeline controls when execution occurs and in what order.
+governed transitions
 
-────────────────────────────────
+recoverable execution
 
-2. Scope
+no unauthorized cross-system jumps
 
-The Pipeline System governs:
+full SSOT alignment
 
-• task queue ordering
-• execution sequencing
-• priority management
-• safety and governance insertion points
-• commit/rollback boundaries
-• memory writeback rules
-• routing-driven pipeline placement
-• system-wide concurrency rules
+The Pipeline establishes the OS-wide “execution highway.”
 
-The Pipeline System does not:
+────────────────────────────────────
 
-• produce outputs
-• generate content
-• perform reasoning
-• modify system or engine logic
-• bypass safety or governance
-• directly access SSOT or Memory
+2. Position in the System Layer
 
-────────────────────────────────
+Pipeline System sits below:
 
-3. System Principles
+Identity System
 
-3.1 Deterministic Ordering
-All operations must flow through a deterministic pipeline sequence.
+Intent System
 
-3.2 Serialized Execution
-Even in parallel contexts, each operation must appear deterministic from the system’s perspective.
+User Modeling System
 
-3.3 Governance Precedence
-Pipeline must enforce governance checkpoints before commit.
+Memory System
 
-3.4 Safety First
-Unsafe operations cannot enter the execution lane.
+Safety System
 
-3.5 No Direct Engine Access
-Engines may not execute without a pipeline-issued authorization.
+And sits above:
 
-3.6 Immutable Execution Contracts
-Once committed to the pipeline, no operation may be altered.
+Execution System
 
-3.7 SSOT Preservation
-Pipeline is the only pathway to commit state-changing operations.
+Generation System
 
-────────────────────────────────
+Autonomy System
 
-4. Pipeline Architecture
+Its role is to connect all System Layer components into a single, unified execution flow.
 
-The Pipeline System consists of:
+────────────────────────────────────
 
-• Ingress Queue – receives requests from Systems
-• Validation Stage – applies governance + safety filtering
-• Planning Stage – resolves ordering, priority, and routing
-• Execution Lane – Engines execute operations in a controlled sequence
-• Verification Stage – post-execution safety and governance checks
-• Commit Stage – authorized writes to Memory and SSOT
-• Egress – outputs returned to calling systems
+3. Responsibilities
 
-────────────────────────────────
+The Pipeline System is responsible for:
 
-5. Pipeline Object (PO)
-5.1 PO Structure
+Defining the allowed execution phases
 
-PO = {
- pipeline-id
- origin-system
- task-type
- execution-contract
- routing-plan
- safety-contract
- governance-flags
- priority-level
- allowed-engines
- forbidden-engines
- expected-output-schema
- rollback-policy
- ssot-anchor-version
- audit-header
-}
+Enforcing legal transitions
 
-5.2 PO Rules
+Blocking illegal or unsafe transitions
 
-• PO is immutable once admitted
-• PO must pass validation before entering execution
-• PO cannot specify module-level targets
-• PO must reference SSOT version
-• PO must include explicit expected output schema
+Providing deterministic step ordering
 
-────────────────────────────────
+Synchronizing memory, intent, and safety state
 
-6. Pipeline Lifecycle
+Providing rollback integration
 
-Ingress
-Systems submit POs to Pipeline.
+Supporting Autonomy System handoff
 
-Pre-Validation
-Pipeline checks:
-• formatting
-• required fields
-• SSOT compatibility
+Triggering SSOT write-back on completion
 
-Safety Validation
-Safety System approves or blocks execution based on the safety envelope.
+────────────────────────────────────
 
-Governance Validation
-Governance enforces:
-• policy rules
-• version checks
-• permitted engines
-• evidence requirements
+4. Architectural Principles
 
-Planning & Ordering
-Pipeline determines:
-• execution lane
-• ordering
-• priority
-• resource allocation
+The Pipeline System must follow these principles:
+
+Deterministic: every execution must follow the same legal route.
+
+Non-branching: no implicit forks or bypasses are allowed.
+
+Governed: Safety and Governance must approve critical transitions.
+
+Auditable: every step must be timestamped and logged.
+
+Recoverable: errors must route into Backtracking/Recovery.
+
+SSOT-aligned: Pipeline state must match SSOT state at all times.
+
+────────────────────────────────────
+
+5. Pipeline Phases
+
+Prospera OS defines the following execution phases:
+
+Preparation
+
+Intent Resolution
+
+Modeling Sync
+
+Memory Sync
+
+Safety Checkpoint
+
+Generation Setup
 
 Execution
-Pipeline dispatches PO to the Execution System + Engines.
 
-Post-Execution Validation
-Validate:
-• output safety
-• schema compliance
-• governance compliance
+Output Integration
 
-Commit
-Approved outputs are written to Memory and SSOT.
+Autonomy Evaluation
 
-Egress
-Final output returned to Application System.
+Write-Back / SSOT Update
 
-────────────────────────────────
+Completion
 
-7. Execution Lanes
+Each phase must be executed in strict order unless a legal exception path applies.
 
-Pipeline supports multiple execution lanes, each deterministic:
+────────────────────────────────────
 
-7.1 Standard Lane
+6. State Machine
 
-Default lane for most system operations.
+The Pipeline System uses a deterministic state machine:
 
-7.2 High-Priority Lane
+Preparation
+→ Intent Resolution
+→ Modeling Sync
+→ Memory Sync
+→ Safety Checkpoint
+→ Generation Setup
+→ Execution
+→ Output Integration
+→ Autonomy Evaluation
+→ SSOT Write-Back
+→ Completion
 
-Used for:
-• safety-critical tasks
-• recovery tasks
-• governance-driven tasks
 
-7.3 Low-Priority Lane
+No backward transitions are allowed except via Backtracking System.
+No skipping is permitted.
+No parallelization is permitted at v1.0.
 
-Used for background tasks:
-• maintenance
-• cleanup
-• model updates (if authorized)
+────────────────────────────────────
 
-7.4 Emergency Lane
+7. Transition Rules
+Legal transitions must satisfy:
 
-Used for:
-• constitutional violations
-• SSOT mismatches
-• critical recovery sequences
+safety-approved = true
 
-Only Governance may activate this lane.
+governance-approved = true (for high-risk tasks)
 
-────────────────────────────────
+memory-consistency = true
 
-8. Pipeline Constraints
+modeling-sync = true
 
-The Pipeline System enforces:
+intent-stable = true
 
-8.1 Safety Constraints
+Illegal transitions include:
 
-• illegal transitions rejected
-• unsafe outputs blocked
-• prohibited engine usage denied
+jumping directly to Execution
 
-8.2 Governance Constraints
+bypassing Safety
 
-• version locking
-• evidence requirements
-• policy compliance
+skipping Memory or Modeling Sync
 
-8.3 Routing Constraints
+attempting parallel phase execution
 
-• source/destination legality
-• no cross-layer jumps
-• no module bypassing
+cross-system execution without Pipeline authorization
 
-8.4 Memory & SSOT Constraints
+────────────────────────────────────
 
-• state must be consistent
-• no unauthorized writebacks
-• all writes must pass commit stage
+8. Cross-System Interaction Rules
 
-────────────────────────────────
+The Pipeline System interacts with other subsystems in the following way:
 
-9. System Interfaces
-9.1 Input Interfaces
+Intent System: receives resolved intent package
 
-Pipeline receives input from:
+User Modeling System: obtains user state
 
-• Application System
-• Intent System
-• Execution System
-• Safety System
-• Routing System
-• Backtracking System
-• Recovery System
-• Governance Layer
+Memory System: synchronizes working memory
 
-9.2 Output Interfaces
+Safety System: approval gate
 
-Pipeline produces:
+Execution System: receives execution command
 
-• execution-ready contracts
-• lane-assigned pipeline tasks
-• commit authorization signals
-• memory/SSOT writeback packets
-• final system outputs
-• audit logs for governance
+Generation System: receives generation plan
 
-────────────────────────────────
+Recovery/Backtracking Systems: receives error events
 
-10. Interaction With Other Systems
-10.1 Execution System
+Autonomy System: receives post-execution evaluation package
 
-Pipeline orchestrates execution sequencing.
+Pipeline is the only component allowed to coordinate all system-to-system transitions.
 
-10.2 Safety System
+────────────────────────────────────
 
-Safety gates all pipeline entries and exits.
+9. Safety & Governance Enforcement
 
-10.3 Governance Layer
+Pipeline execution requires:
 
-Governance approves or denies commit operations.
+Safety approval for each critical step
 
-10.4 Memory System
+Governance approval when required
 
-Pipeline manages legal memory writebacks.
+Audit log emission
 
-10.5 Backtracking & Recovery Systems
+No self-modification
 
-Pipeline coordinates rollback and restoration flows.
+No cross-engine shortcuts
 
-10.6 Routing System
+No uncontrolled autonomy transitions
 
-Routing determines destination lane and ordering.
+Violations must route to Recovery or Governance escalation.
 
-────────────────────────────────
+────────────────────────────────────
 
-11. Prohibited Behaviors
+10. Prohibitions
 
-Pipeline System must not:
+The Pipeline System may NOT:
 
-• execute business logic
-• bypass Safety or Governance
-• allow engines to run without pipeline authorization
-• modify PO after admission
-• commit to SSOT without validation
-• create nondeterministic execution ordering
-• merge unrelated tasks
-• perform inference, generation, or modeling
-• access modules directly
+store user data
 
-────────────────────────────────
+execute business logic
 
-12. Error & Recovery Model
-Class A — Recoverable
+evaluate policy
 
-• ordering mismatch
-• resolved via re-queueing
+perform generation or execution itself
 
-Class B — Major
+call external modules
 
-• routing conflict
-• corrected by fallback or re-routing
+bypass the Safety System
 
-Class C — Critical
+write to SSOT directly (only via approved channels)
 
-• illegal commit attempt
-• requires Recovery System intervention
+────────────────────────────────────
 
-Class D — Constitutional
-
-• SSOT write conflict
-• triggers Kernel-level arbitration
-
-────────────────────────────────
-
-13. Versioning
+11. Versioning
 
 v1.0 Initial Pipeline System Specification
-v1.1 Pipeline State Machine
-v2.x Distributed Pipeline Lanes
+v1.1 Multi-branch Pipeline Model (future)
+v2.x Distributed Pipeline Architecture
 
-────────────────────────────────
+────────────────────────────────────
 
-14. File Location
+12. File Location
 
 system/pipeline/pipeline-system-v1.0.md
+
+────────────────────────────────────
