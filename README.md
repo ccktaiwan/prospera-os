@@ -1,7 +1,7 @@
 #繁榮時代（Prospera OS）
 A Governance-First Enterprise Execution Operating System
 ---
-
+Architecture governance is defined in ARCHITECTURE_CANONICAL.md.
 ## Relationship to Prospera Intelligence
 
 Prospera OS is an execution-layer operating system within the Prospera ecosystem.
