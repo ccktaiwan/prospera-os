@@ -6,270 +6,253 @@ Status: Stable
 Owner: Prospera Architecture Group
 Category: System Specification
 
-────────────────────────────────
+────────────────────────────────────────
 
 1. Purpose
 
-The Generation System defines how Prospera OS produces governed, deterministic, safe, and structured outputs.
+The Generation System defines how Prospera OS produces governed,
+deterministic, safe, and structured outputs across all tasks and modes.
 
 Its purpose includes:
 
-• enforce structured generation rules
-• define output formats and schemas
-• control generative behavior through contracts
-• prevent hallucinations, unsafe outputs, and drift
-• ensure all generation is traceable and auditable
-• ensure compliance with safety, governance, and SSOT
+• enforce structured generation rules  
+• define output formats and schemas  
+• ensure consistency with system state and intent  
+• manage multi-stage and multi-engine output pipelines  
+• guarantee alignment with Safety and SSOT principles  
 
-Generation System does not generate outputs itself;
-actual generation is performed by the Generation Engine.
-
-────────────────────────────────
+────────────────────────────────────────
 
 2. Scope
 
-The Generation System governs:
+The Generation System governs all output-producing processes within
+Prospera OS, including:
 
-• generative output schemas
-• generation contracts
-• allowed vs forbidden generative behavior
-• multi-step generation flows
-• formatting, structure, and content constraints
-• consistency with Intent, Safety, and Execution
-• validation of generated outputs
-• audit and SSOT alignment
+• text generation  
+• structured document generation  
+• schema-bound output  
+• governed multi-step generation  
+• tool-integrated generation flows  
 
-The system does not:
+This system does not execute logic; execution belongs to the Execution Engine.
+Generation defines the structure, rules, and constraints that execution follows.
 
-• infer identity
-• modify intent
-• perform execution logic
-• bypass safety or routing
-• store user content
+────────────────────────────────────────
 
-────────────────────────────────
+3. System Responsibilities
 
-3. System Principles
+The Generation System is responsible for:
 
-3.1 Deterministic Generation
-Same input conditions must yield consistent output structure and meaning.
+3.1 Structured Output Specification
+• schema definitions  
+• output contracts  
+• required fields  
+• validation rules  
 
-3.2 Governed Generation
-Every generation must follow a Generation Contract (GC).
+3.2 Generation Chain Governance
+• stage ordering  
+• deterministic transitions  
+• multi-stage chain validation  
+• rollback and recovery integration  
 
-3.3 Safe Output
-All outputs must satisfy safety and governance rules.
+3.3 Format Enforcement
+• document patterns  
+• protocol formats  
+• engine-to-system data structures  
 
-3.4 Structured Outputs
-All outputs must respect schemas and formatting contracts.
+3.4 Safety-Aligned Generation
+• mandatory safety filters  
+• suppression of unsafe content  
+• integrity with Safety System decisions  
 
-3.5 Drift Prevention
-Generation must not drift from intent, identity, or safety envelope.
+3.5 Cross-System Guarantees
+• alignment with Intent state  
+• alignment with User Context  
+• alignment with Memory state  
+• alignment with SSOT kernel invariants  
 
-3.6 SSOT Alignment
-Generated outputs referencing factual content must align with SSOT.
+────────────────────────────────────────
 
-────────────────────────────────
+4. System Interfaces
 
-4. Generation Contract (GC)
+The Generation System exposes the following interfaces:
 
-All generative behavior must be described by a GC object.
+4.1 Generation Contract Interface (GCI)
+Defines the structure and requirements of output.
 
-4.1 GC Structure
+4.2 Generation Chain Interface (GChI)
+Governed multi-stage generation pipeline.
 
-GC = {
-contract-id
-intent-reference
-expected-output-schema
-allowed-content-classes
-forbidden-content-classes
-safety-profile
-governance-flags
-formatting-rules
-determinism-requirements
-routing-constraints
-memory-scope
-ssot-anchor-version
-audit-header
-}
+4.3 Engine Binding Interface (EBI)
+Allows pluggable Generation Engines to execute generation rules.
 
-4.2 GC Rules
+4.4 Safety Enforcement Interface (SEI)
+All outputs pass through Safety System before release.
 
-• GC must be produced before generation
-• GC is immutable after pipeline commit
-• GC cannot conflict with Safety
-• GC must specify explicit schemas
-• GC must prohibit unsafe or hallucinated generations
-• GC must reference SSOT for factual correctness
-• GC cannot include module-specific behaviors
+4.5 Validation Interface (VI)
+Performs schema, format, and consistency validation.
 
-────────────────────────────────
+────────────────────────────────────────
 
-5. Output Schemas
+5. State Model
 
-Generation System governs allowed output shapes:
+The Generation System maintains the following state objects:
 
-5.1 Text Output
+5.1 Generation Schema State
+• active schema  
+• required fields  
+• prohibited fields  
+• validation rules  
 
-• structured paragraphs
-• lists
-• documentation formats
-• technical specifications
-• summaries
-• step-by-step outputs
+5.2 Chain State
+• stage  
+• stage requirements  
+• pending transitions  
+• allowed next states  
 
-5.2 Data Output
+5.3 Safety State Alignment
+• last safety classification  
+• allowed output modes  
+• mandatory suppression rules  
 
-• JSON
-• tables
-• key–value mappings
-• structured dictionaries
+5.4 Consistency State
+• SSOT alignment  
+• intent correlation  
+• user context dependencies  
+• memory coherence requirements  
 
-5.3 Multi-Stage Outputs
+────────────────────────────────────────
 
-• complex documents
-• pipelines
-• multi-step reasoning chains
-• controlled expansions
+6. Generation Rules
 
-Prohibited output types
+The Generation System enforces:
 
-• unstructured free-form generation
-• unsafe personal data
-• hallucinated facts
-• unverifiable claims
-• content without schema
+6.1 Deterministic Generation
+No stochastic or uncontrolled variation unless explicitly allowed.
 
-────────────────────────────────
+6.2 State-Coherent Output
+Generation must remain consistent with:
 
-6. Generation Lifecycle
+• intent  
+• user modeling  
+• memory  
+• safety  
+• routing state  
 
-Intent + Identity Processing
-Generation System loads intent and user model constraints.
+6.3 Structural Consistency
+All outputs must conform to:
 
-Safety Pre-Check
-Ensure generation is safe and allowed.
+• declared schemas  
+• required fields  
+• version formats  
+• contract definitions  
 
-Generation Contract Creation
-Build GC with explicit schema and constraints.
+6.4 Multi-Stage Output Flow
+All multi-stage generation must:
 
-Pipeline Commit
-GC is inserted into pipeline for routing.
+• follow deterministic stage order  
+• pass through validation checkpoints  
+• be recoverable in case of error  
 
-Generation Engine Execution
-Engine produces draft output.
+────────────────────────────────────────
 
-Post-Generation Safety Validation
-Validate:
-• no hallucination
-• no policy violations
-• schema compliance
-• output safety
+7. Chain Structure
 
-Governance Validation (if required)
-Validate:
-• version compatibility
-• policy compliance
-• evidence requirements
+A standard generation chain includes:
 
-Finalization
-Output is marked complete and delivered to Application Layer.
+Stage 1: Intent-Priming  
+Stage 2: Schema-Locking  
+Stage 3: Engine Execution  
+Stage 4: Safety Filtering  
+Stage 5: Format Validation  
+Stage 6: Output Assembly  
 
-────────────────────────────────
+Optional stages include:
 
-7. System Interfaces
-7.1 Input Interfaces
+• post-generation routing  
+• autonomy re-evaluation  
+• content optimization passes  
 
-Generation System accepts:
+────────────────────────────────────────
 
-• Intent System output
-• User Modeling signals
-• Safety contracts
-• Execution plan references
-• Memory snapshots
-• Governance policy flags
-• Routing constraints
+8. Safety Integration
 
-7.2 Output Interfaces
+Safety enforcement is mandatory at:
 
-Generation System provides:
+• pre-generation validation  
+• mid-chain safety check  
+• final output safety check  
 
-• structured outputs
-• validated generation results
-• generation evidence blocks
-• SSOT alignment reports
-• final application-level response
-• pipeline-ready generation artifacts
+Safety types:
 
-────────────────────────────────
+Type A — Allowed  
+Stable and safe output.
 
-8. Interaction With Other Systems
-8.1 Safety System
+Type B — Constrained  
+Sensitive domain → apply rule-based restriction.
 
-Validates generative outputs for safety and legality.
+Type C — Critical  
+Unsafe or hallucinated → downgrade → mandatory recovery.
 
-8.2 Memory System
+Type D — Constitutional  
+SSOT or Kernel violation → immediate stop and recovery.
 
-Provides context for constrained generation.
+────────────────────────────────────────
 
-8.3 Execution System
+9. Error Handling
 
-Wraps generation into deterministic execution steps.
+Errors fall into:
 
-8.4 Recovery & Backtracking Systems
+9.1 Schema Errors
+• missing required fields  
+• invalid field types  
+• schema-version mismatch  
 
-Used if generation violates safety or contracts.
+9.2 Chain Transition Errors
+• illegal transition  
+• out-of-order stage execution  
+• missing validation checkpoints  
 
-8.5 Governance Layer
+9.3 Safety Errors
+• safety classification C or D  
+• hallucination detection  
+• disallowed domain content  
 
-Validates high-stakes generation against policy.
+9.4 Consistency Errors
+• SSOT conflict  
+• intent mismatch  
+• context drift  
+• memory inconsistency  
 
-────────────────────────────────
+All errors trigger the Recovery System.
 
-9. Prohibited Behaviors
+────────────────────────────────────────
 
-Generation System may not:
+10. Inter-System Dependencies
 
-• generate content without GC
-• bypass Safety or Governance
-• create unbounded or self-expanding content
-• produce hallucinated facts
-• reference Modules
-• write to SSOT
-• store personal or platform-specific data
-• modify routing or execution logic
+The Generation System depends on:
 
-────────────────────────────────
+• Intent System — defines generation purpose  
+• User Modeling — determines audience and constraints  
+• Memory System — retrieves relevant stored information  
+• Safety System — enforces safety constraints  
+• Execution Engine — performs generation steps  
+• Pipeline System — manages multi-stage processes  
 
-10. Error & Correction Model
-Type A — Correctable
+Generation may not bypass any system dependency.
 
-Minor schema mismatch or formatting errors → regenerate with same GC.
-
-Type B — Major
-
-Significant safety or governance conflict → regeneration with stricter constraints.
-
-Type C — Critical
-
-Unsafe or hallucinated content → task downgrade + mandatory recovery.
-
-Type D — Constitutional
-
-SSOT conflict → Kernel arbitration required.
-
-────────────────────────────────
+────────────────────────────────────────
 
 11. Versioning
 
-v1.0 Initial Generation System Specification
-v1.1 Multi-Stage Generation State Machine
-v2.x Distributed Generation Chains
+v1.0 Initial Generation System Specification  
+v1.1 Multi-Stage Generation State Machine  
+v2.x Distributed Generation Chains  
 
-────────────────────────────────
+────────────────────────────────────────
 
 12. File Location
 
 system/generation/generation-system-v1.0.md
 
-────────────────────────────────
+────────────────────────────────────────
