@@ -1,0 +1,232 @@
+Prospera OS
+Audience Classifier Specification v1.0
+
+File: system/audience/audience-classifier-v1.0.md
+Status: Stable
+Owner: Prospera Architecture Group
+Category: System Specification
+
+──────────────────────────────────────────────
+
+1. Purpose
+
+The Audience Classifier is the deterministic component of the Audience System responsible for identifying and assigning the base audience type used throughout Prospera OS.
+
+It ensures that all downstream systems (Intent, Modeling, Safety, Routing, Generation, Execution) operate on a consistent, validated, and non-probabilistic audience classification.
+
+──────────────────────────────────────────────
+
+2. Scope
+
+This specification defines:
+• classification categories
+• deterministic classification rules
+• upstream/downstream dependencies
+• safety constraints
+• governance alignment
+• SSOT write-back requirements
+• prohibited operations
+
+The Audience Classifier produces the canonical audience-type used across the OS.
+
+──────────────────────────────────────────────
+
+3. Classification Outputs
+
+The classifier generates the following fields:
+
+3.1 audience-type
+
+Singular, non-ambiguous identifier describing the target audience.
+Examples:
+• general
+• professional
+• expert
+• beginner
+• corporate
+• executive
+• technical
+
+3.2 demographic-class
+
+Optional structural metadata (non-sensitive).
+Examples:
+• working-adult
+• senior-professional
+• student
+• practitioner
+
+3.3 expertise-level
+
+Defines information complexity tier.
+Values:
+• low
+• medium
+• high
+• domain-expert
+
+3.4 interaction-profile
+
+Behavioral mode describing expected interaction pattern.
+Examples:
+• concise
+• narrative
+• step-based
+• analytical
+• executive-summary
+
+All outputs must be deterministic and validated by Safety + Governance layers.
+
+──────────────────────────────────────────────
+
+4. Deterministic Classification Rules
+4.1 Single-Value Rule
+
+Classifier must always output one and only one audience-type.
+
+If classification ambiguity occurs → Drift event → Recovery → Re-classify.
+
+4.2 Deterministic Rule
+
+Classifier must not use probabilistic inference.
+If upstream provides ambiguous modeling signals, classifier must fallback to SSOT history.
+
+4.3 Traceability Rule
+
+Every classification must contain:
+• source-signals
+• rule-path
+• confidence-threshold validation
+• safety-check result
+• timestamp
+
+4.4 Non-Override Rule
+
+No subsystem may override classifier output unless:
+• Safety → detects risk
+• Governance → mandates override
+• SSOT → detects conflict
+
+4.5 Alignment Rule
+
+Classifier must align with:
+• Identity System
+• Intent System
+• User Modeling System
+
+Mismatch triggers a drift event.
+
+──────────────────────────────────────────────
+
+5. Inputs
+
+The Audience Classifier consumes deterministic upstream signals.
+
+5.1 Required Inputs
+
+• identity-role
+• intent-type
+• modeling-preferences
+• task-context
+• execution-environment
+
+5.2 Optional Inputs
+
+• historical SSOT audience logs
+• validated long-term behavioral patterns
+
+5.3 Forbidden Inputs
+
+Classifier may not use:
+• personal data
+• probabilistic user modeling
+• third-party platform classifications
+• inferred demographic attributes
+
+──────────────────────────────────────────────
+
+6. Downstream Responsibilities
+
+Classifier outputs feed:
+
+6.1 Audience Matrix
+
+→ maps audience-type to routing and generation constraints.
+
+6.2 Audience State Machine
+
+→ defines initial state: Classified.
+
+6.3 Routing System
+
+→ defines content format, tone, and complexity.
+
+6.4 Generation System
+
+→ determines structural density, terminology boundaries, and explanation depth.
+
+6.5 Safety System
+
+→ enforces audience-appropriate constraints.
+
+──────────────────────────────────────────────
+
+7. Safety Requirements
+
+The classifier must block downstream execution if:
+
+• audience-type is undefined
+• classifier rules contradict intent
+• identity intent mismatch
+• safety-level for target audience is violated
+• drift is detected mid-pipeline
+
+If safety violation → hard block + escalate.
+
+──────────────────────────────────────────────
+
+8. SSOT Requirements
+
+Classifier must write to SSOT:
+
+• audience-type
+• reasoning-path
+• validation-hash
+• drift-events
+• safety-alignment-status
+
+SSOT must remain immutable after write-back.
+
+──────────────────────────────────────────────
+
+9. Forbidden Operations
+
+The Audience Classifier may never:
+
+• generate multivalued audience types
+• hallucinate demographic attributes
+• rewrite user identity
+• override intent or modeling
+• modify routing rules
+• bypass Governance
+• read Kernel-level data
+• operate probabilistically
+• store sensitive attributes
+
+Violation → enforcement + Governance escalation.
+
+──────────────────────────────────────────────
+
+10. Versioning
+
+v1.0 Initial Audience Classifier Specification
+v1.1 Multi-Domain Audience Schema
+v2.x Adaptive Audience Classification Model
+
+──────────────────────────────────────────────
+
+11. File Location
+
+system/audience/audience-classifier-v1.0.md
+
+──────────────────────────────────────────────
