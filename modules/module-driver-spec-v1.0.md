@@ -10,277 +10,334 @@ Category: Module Driver Specification
 
 1. Purpose
 
-The Module Driver v1.0 defines the low-level execution layer responsible for interfacing with external platform APIs, SDKs, or services.
+The Module Driver provides the only safe and deterministic execution path for Modules that interact with external platforms.
 
-The driver MUST:
+It ensures:
 
-Execute only sanitized and validated commands
+Safe SDK/API invocation
 
-Remain deterministic, governed, and predictable
+Platform permission control
 
-Respect all Safety Envelope constraints
+Rate-limit enforcement
 
-Guarantee zero side effects beyond approved operations
+Deterministic behavior
 
-Provide consistent, normalized responses back to the Module Adapter
+Predictive and safety filtering
 
-Maintain strict isolation from internal OS logic
+Normalized request/response structure
+
+Full SSOT lineage tracking
+
+Isolation from Modules, Systems, and Engines
+
+Platform Integration Modules may only execute through Drivers.
 
 ────────────────────────────────────────────
 
 2. Architectural Position
 
 Layer: Module Layer
-Type: Execution Driver
-Upstream: Module Sandbox Shield
-Downstream: External platform APIs (Wix, Meta, GA4, LINE, GSC, etc.)
-Governance: Full audit traces must be produced
-Safety: Restricted by Sandbox Shield enforcement layer
+Component: Platform Execution Layer
+
+Upstream:
+
+Module Adapter
+
+Sandbox Shield
+
+Capability Boundary Rules
+
+Module Governance Profile
+
+Downstream:
+
+External Platforms (Wix, Meta, GA4, GSC, LINE, DNS, YouTube, etc.)
+
+The Driver executes only after all validation layers succeed.
 
 ────────────────────────────────────────────
 
 3. Responsibilities
 
-The Module Driver MUST:
+The Driver performs seven critical responsibilities:
 
-Execute platform-specific operations
+Platform abstraction
 
-Follow the validated capability definitions
+Permission enforcement
 
-Honor input/output schemas
+SDK/API call normalization
 
-Ensure deterministic action execution
+Deterministic execution constraints
 
-Handle platform-level errors safely
+Safety/predictive enforcement
 
-Return normalized results
+Error modeling and controlled fallback
 
-Log all I/O operations for governance
-
-Block any unexpected or out-of-spec behavior
-
-Contain platform integration code ONLY
-
-Maintain complete isolation from System and Engine layers
+SSOT lineage & full-platform audit logging
 
 ────────────────────────────────────────────
 
-4. Non-Responsibilities
+4. Driver Execution Pipeline
 
-The driver MUST NOT:
-
-Perform validation (Shield responsibility)
-
-Perform governance logic
-
-Apply predictive overlays
-
-Mutate ERP, EAT, or SSOT
-
-Make execution decisions (Engine responsibility)
-
-Call other modules
-
-Modify system-level state
+Every platform operation flows through:
+(1) Receive Execution-Ready Payload (ERP)
+(2) Permission Scope Validation
+(3) Endpoint Mapping
+(4) Rate-Limit & Throttle Enforcement
+(5) Deterministic Execution of SDK/API Call
+(6) Error Modeling & Fallback
+(7) Platform Response Normalization
+(8) Emit Driver Response Package (DRP)
+Modules never call platforms directly.
 
 ────────────────────────────────────────────
 
-5. Driver Input Packet
+5. Permission Scope Enforcement
 
-The Shield provides a Driver Input Packet (DIP):
-{
-  id: UUID,
-  module: string,
-  capability: string,
-  params: object,
-  context: object,
-  ssot_hash: string,
-  safety_class: "A" | "B",
-  timestamp: ISO8601
-}
-All fields are mandatory.
+Driver validates:
 
-────────────────────────────────────────────
+Approved endpoints
 
-6. Driver Output Packet
+Allowed HTTP verbs
 
-The driver must return a Driver Output Packet (DOP):
-{
-  id: UUID,
-  module: string,
-  capability: string,
-  result: any,
-  status: "success" | "platform_error" | "invalid" | "fallback",
-  ssot_hash: string,
-  timestamp: ISO8601
-}
-───────────────────────────────────────────
+Scope-limited tokens
 
-7. Execution Rules
-7.1 Determinism
+Declared capability class (C/D only)
 
-For identical inputs → identical outputs.
+Platform-specific permission rules
 
-7.2 Atomicity
+Examples of forbidden actions:
 
-Driver actions are all-or-nothing.
+Calling an endpoint not listed in module declaration
 
-7.3 Immutability
+Attempt to modify unknown resources
 
-Driver may never modify DIP.
+Use of unapproved API keys
 
-7.4 Isolation
+Direct unaudited HTTP requests
 
-Driver cannot access:
-
-Execution Engine
-
-Sandbox internals
-
-System state
-
-Memory, Intent, Modeling
-
-SSOT
-
-7.5 Platform Compliance
-
-Driver must follow correct SDK/API specifications.
+Violation emits:
+PlatformScopeError
+PlatformScopeError
+Execution stops immediately.
 
 ────────────────────────────────────────────
 
-8. Error Handling Model
-Type A — Platform Error
-
-Platform API rejects or fails the operation.
-
-Driver returns DOP(status="platform_error").
-
-Type B — Invalid Capability Binding
-
-Capability not supported by the driver.
-
-Type C — Unexpected API Response
-
-Response that does not match expected schema.
-
-Type D — Unauthorized Operation
-
-API call violates platform permission constraints.
-
-Type E — Timeout
-
-External platform does not respond within allowed window.
-
-All errors must be normalized through DOP.
-
-────────────────────────────────────────────
-
-9. Driver State Machine
-States
-
-idle
-
-preparing
-
-invoking
-
-receiving
-
-normalizing
-
-packaging
-
-finalizing
-
-Rules
-
-All transitions MUST be:
-
-deterministic
-
-logged
-
-reversible
-
-────────────────────────────────────────────
-
-10. Security Requirements
-
-The driver MUST enforce:
-
-Zero external side effects beyond permitted API calls
-
-No dynamic code evaluation
-
-No cross-platform interaction
-
-No outbound communication except through validated channels
-
-No internal OS access
-
-Strict SSOT preservation
-
-────────────────────────────────────────────
-
-11. Platform-Specific Driver Extensions
-
-Drivers may implement platform-specific behavior only in the driver’s internal scope, via:
-
-Wix Driver Extension
-
-Meta Driver Extension
-
-GA4 Driver Extension
-
-LINE Driver Extension
-
-Twin UI Driver Extension
-
-GSC Driver Extension
-
+6. Endpoint Mapping Specification
+Drivers maintain static endpoint maps:
+meta.publish → https://graph.facebook.com/{version}/pages/{page_id}/feed
+wix.updateSeo → https://www.wixapis.com/site-seo/v1/update
+line.pushMessage → https://api.line.me/v2/bot/message/push
+meta.publish → https://graph.facebook.com/{version}/pages/{page_id}/feed
+wix.updateSeo → https://www.wixapis.com/site-seo/v1/update
+line.pushMessage → https://api.line.me/v2/bot/message/push
 Rules:
 
-Extensions must not change schemas
+No dynamic endpoint construction
 
-Extensions must not override Adapter or Shield logic
+No uncontrolled path parameters
 
-Extensions must be versioned independently
+Only declared endpoints allowed
 
-────────────────────────────────────────────
-
-12. Governance Requirements
-
-Drivers MUST:
-
-Emit a complete Operation Log for every execution
-
-Include platform endpoints used
-
-Include transformed parameters sent
-
-Include raw platform response
-
-Include normalization logic hash
-
-Governance Validator may revoke a driver if:
-
-Behavior becomes nondeterministic
-
-Drift or schema violation occurs
-
-Platform integration changes unexpectedly
+API version pinning mandatory
 
 ────────────────────────────────────────────
 
-13. Versioning
+7. Rate-Limit & Throttle Logic
 
-v1.0 — Initial specification
+Driver enforces:
+
+Platform-defined rate limits
+
+Deterministic retry models
+
+No exponential backoff
+
+Hard stop after threshold
+
+Cooldown period for repeated failures
+
+Example:
+If rate-limit hit:
+  fallback → "queued" status
+  do not retry immediately
+If rate-limit hit:
+  fallback → "queued" status
+  do not retry immediately
+────────────────────────────────────────────
+
+8. Deterministic Execution Rules
+
+All platform calls must be deterministic:
+
+Same input = same output class
+
+No random or time-variant behavior
+
+No asynchronous side effects
+
+No unbounded loops
+
+No environment-sensitive behavior
+
+Drivers normalize timestamps:
+"timestamp": "<canonical>"
+9. Error Modeling & Controlled Fallback
+Driver represents all platform failures as canonical error types:
+| Error                | Description                  |
+| -------------------- | ---------------------------- |
+| DriverAuthError      | token invalid/expired        |
+| DriverRateLimitError | platform throttle            |
+| DriverServerError    | 5xx platform error           |
+| DriverSchemaError    | unexpected platform response |
+| DriverNetworkError   | connectivity issues          |
+| DriverScopeError     | unauthorized endpoint        |
+Fallback behavior is deterministic:
+
+Return structured error
+
+Never retry recursively
+
+Never modify original request
+
+Never perform secondary operations
 
 ────────────────────────────────────────────
 
-14. File Location
+10. Predictive & Safety Enforcement
 
-module/module-driver-spec-v1.0.md
+Driver applies:
+
+Predictive variance checks
+
+Safety-class revalidation
+
+Output drift detection
+
+Platform risk classification
+
+If a response violates safety envelope:
+DriverPredictiveViolation
+Module execution halts.
 
 ────────────────────────────────────────────
+
+11. Platform Response Normalization
+
+Driver converts platform responses into canonical structure:
+{
+  "status": "success | fail | queued",
+  "platform": "meta",
+  "operation": "publish",
+  "response": { ... normalized ... },
+  "error": null,
+  "lineage": { ... }
+}
+Normalizations include:
+
+Key renaming
+
+Type conversion
+
+Removing irrelevant platform data
+
+Standardizing error fields
+
+────────────────────────────────────────────
+
+12. Driver Response Package (DRP)
+
+The final output is:
+Normalizations include:
+
+Key renaming
+
+Type conversion
+
+Removing irrelevant platform data
+
+Standardizing error fields
+
+────────────────────────────────────────────
+
+12. Driver Response Package (DRP)
+
+The final output is:
+DRP = Driver Response Package
+DRP contains:
+
+Normalized response
+
+Error (if any)
+
+Predictive & safety metadata
+
+SSOT lineage metadata
+
+Execution timestamp
+
+Routing metadata
+
+This is sent back to Adapter → Execution Pipeline.
+
+────────────────────────────────────────────
+
+13. SSOT Lineage Requirements
+
+Driver must record:
+
+driver_operation_id
+
+platform_endpoint
+
+sdk_version
+
+token_scope
+
+payload_hash
+
+operation_timing
+
+rate_limit_state
+
+error_signature
+
+drift_profile
+
+Governance uses lineage for:
+
+Audits
+
+Rollbacks
+
+Risk modeling
+
+Blacklisting unsafe modules
+
+────────────────────────────────────────────
+
+14. Supported Driver Types
+
+Drivers exist for:
+
+WixDriver
+
+MetaDriver
+
+GA4Driver
+
+GSCDriver
+
+LineDriver
+
+DNSDriver
+
+YouTubeDriver
+
+MapsDriver
+
+Each driver implements:
+Driver Interface v1.0
+Platform Contract v1.0
+Driver Interface v1.0
+Platform Contract v1.0
