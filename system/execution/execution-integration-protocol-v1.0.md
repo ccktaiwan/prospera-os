@@ -1,5 +1,5 @@
 Prospera OS
-Execution System Integration Protocol v1.0
+Execution Integration Protocol v1.0
 
 File: system/execution/execution-integration-protocol-v1.0.md
 Status: Stable
@@ -10,291 +10,370 @@ Category: System Protocol
 
 1. Purpose
 
-The Execution System Integration Protocol (ESIP) defines the complete, deterministic process through which Prospera OS prepares, authorizes, executes, monitors, and finalizes task execution.
+The Execution Integration Protocol (EIP) defines how Prospera OS:
 
-ESIP ensures that Execution:
+• interprets
+• validates
+• orchestrates
+• executes
+• monitors
+• and evaluates
 
-• follows Pipeline and Routing constraints
-• respects audience, intent, memory, and modeling context
-• is safety-aligned and governance-validated
-• is reversible through Backtracking
-• is recoverable through the Recovery System
-• writes consistent results to SSOT
+multi-step task execution across the OS pipeline.
 
-Execution is never an autonomous action.
-It is a governed system transition, orchestrated through ESIP.
+Execution ensures that all actions:
+
+• follow validated intent
+• follow audience and modeling constraints
+• follow safety-defined rules
+• follow routing and pipeline phases
+• do not hallucinate steps
+• do not add or remove tasks
+• remain deterministic and reversible
+• remain aligned with SSOT
+
+This is the system responsible for “what the OS actually does.”
 
 ──────────────────────────────────────────────
 
 2. Scope
 
-ESIP governs:
+EIP governs:
 
-• execution readiness
-• execution authorization
-• execution mode selection
-• cross-system preconditions
-• routing enforcement
-• safety validation
-• governance constraints
-• output handoff to downstream systems
-• error, drift, and recovery behavior
+• task decomposition
+• execution-phase authorization
+• execution-state transitions
+• system-to-system action routing
+• step validation
+• drift and error handling
+• post-execution evaluation
+• execution metadata write-back to SSOT
 
-ESIP does not perform execution logic itself.
-Execution logic lives inside the Execution Engine.
+It does not define execution logic; tasks are implemented in the Execution Engine.
 
 ──────────────────────────────────────────────
 
-3. Execution Lifecycle Overview
+3. Execution Architecture Overview
 
-Execution proceeds through seven deterministic phases:
+Execution in Prospera OS is structured into three layers:
 
-Readiness Validation
+3.1 Logical Execution Layer
 
-Routing Authorization
+• step sequencing
+• task graph traversal
+• routing legality checks
 
-Safety Gate
+3.2 Operational Execution Layer
 
-Execution Mode Selection
+• single-step execution
+• bounded action generation
+• action effects verification
 
-Engine Execution
+3.3 Evaluation Layer
 
-Output Integration
+• output validation
+• safety reevaluation
+• drift detection
+• success/failure scoring
 
-Post-Execution Evaluation
-
-No step may be skipped or reordered.
-
-──────────────────────────────────────────────
-
-4. Integration Dependencies
-
-ESIP integrates the following upstream systems in strict order:
-
-Intent System — task definition and boundaries
-
-Modeling System — cognitive and task profiles
-
-Memory System — working state
-
-Safety System — risk evaluation
-
-Audience System — delivery and complexity constraints
-
-Routing System — legal movement verification
-
-Pipeline System — phase progression
-
-Execution cannot proceed until upstream integration is complete.
+Execution Integration coordinates all three.
 
 ──────────────────────────────────────────────
 
-5. Preconditions for Execution
+4. Upstream Dependencies
 
-Execution requires all of the following:
+Execution must align with validated outputs from:
 
-5.1 Intent Boundaries
+4.1 Intent System
 
-• intent must be stable
-• no drift detected
-• no ambiguous goals
+• task structure
+• step boundaries
+• reasoning depth limits
 
-5.2 Modeling Consistency
+4.2 Audience System
 
-• modeling confidence > threshold
-• no contradictory behavioral patterns
+• allowed structure format
+• density
+• tone and explanation constraints
 
-5.3 Memory Stability
+4.3 Modeling System
 
-• no stale memory
-• coherence with SSOT
+• cognitive load
+• step-size constraints
+• procedural vs analytical mode
 
-5.4 Safety Approval
+4.4 Memory System
 
-• safety-level must be acceptable for task domain
-• no domain risk violations
-• no hallucination-risk beyond threshold
+• working memory
+• historical coherence
+• no unverified assumptions
 
-5.5 Audience Constraints
+4.5 Safety System
 
-• terminology/density aligned
-• tone and complexity compatible
-• no mismatch with target audience
+• domain safety
+• terminology safety
+• compliance boundaries
 
-5.6 Routing Authorization
+4.6 Routing System
 
-• pipeline phase must equal “Execution Setup”
-• routing must approve intended execution path
-• no prohibited system jump
+• legal next system transitions
 
-5.7 Governance Requirements
+4.7 Pipeline System
 
-Mandatory for:
-• corporate/executive tasks
-• domain-critical tasks
-• multi-step execution
-• compliance-sensitive actions
-
-Failure at any stage → Block + Recovery path.
+• correct entry phase
+• phase-completion dependency
 
 ──────────────────────────────────────────────
 
-6. Execution Mode Selection
+5. Execution Integration Lifecycle
 
-ESIP determines the appropriate execution mode:
+EIP defines a seven-phase deterministic lifecycle:
 
-6.1 Allowed Modes
+Phase 1 — Execution Preparation
 
-• procedural
-• analytical
-• strategic
-• guided
-• evaluative
-• corrective
-
-6.2 Mode Constraints
-
-• beginner audience → guided only
-• technical/expert → analytical only
-• executive → strategic or summary
-• corporate → compliance-checked execution
-
-Mode selection must align with:
-
-• intent-type
-• audience-type
-• safety-level
-• routing priority
+Initialize execution context with:
+• validated intent
 • modeling profile
+• audience signals
+• memory snapshot
+• safety constraints
 
-Mode is frozen once execution begins.
+Phase 2 — Task Graph Initialization
+
+Interpret the validated Task Model (from Modeling System):
+• nodes = steps
+• edges = legal transitions
+• step-type = procedural or analytical
+
+Phase 3 — Execution Safety Verification
+
+Execution must not start unless:
+• domain is safe
+• cognitive load feasible
+• terminology allowed
+• risk level ≤ approved threshold
+• no drift detected
+
+Phase 4 — Step Execution
+
+For each step:
+• validate step legality
+• check memory & safety constraints
+• execute using Execution Engine
+• capture output
+• verify output safety & format
+
+Phase 5 — Step Evaluation
+
+Each executed step must be checked for:
+• intent alignment
+• audience correctness
+• modeling constraints
+• safety compliance
+• structural correctness
+• hallucination absence
+
+If violation found → backtrack or halt.
+
+Phase 6 — Execution State Update
+
+Update the execution context:
+• memory state
+• routing state
+• drift state
+• safety-class updates
+• modeling-phase updates
+
+Phase 7 — Execution Freeze
+
+Freeze execution context until next Pipeline phase.
+Prevents uncontrolled step chaining.
 
 ──────────────────────────────────────────────
 
-7. Execution Phase
+6. Preconditions for Execution Use
 
-The Execution Engine performs the actual instruction-level reasoning and action.
-During execution, ESIP enforces:
+Execution cannot start unless:
 
-• step-boundary constraints
-• safety check-in on each step
-• memory state synchronization
-• hallucination suppression
-• compliance enforcement
-• routing adherence
-• multi-step expansion limits
+6.1 Intent Stabilized
 
-Execution must always remain reversible until completion.
+No ambiguous goal.
+No implicit or secondary tasks.
 
-──────────────────────────────────────────────
+6.2 Audience Locked
 
-8. Post-Execution Evaluation
+Tone, density, structure, terminology fixed.
 
-After execution completes, ESIP evaluates:
+6.3 Modeling Confirmed
 
-8.1 Safety validation
+Complexity, step-size, and reasoning depth validated.
 
-• verify no unsafe transitions
-• verify terminology and density boundaries
-• verify hallucination safeguards
+6.4 Memory Validated
 
-8.2 Routing validation
+No contradictions.
+No hallucinated information.
+SSOT-coherent.
 
-• confirm correct system pathway
-• confirm no illegal jumps
+6.5 Safety Gate Open
 
-8.3 Autonomy evaluation
+All safety checks passed.
 
-Input for Autonomy System (Continue / Stop / Downgrade).
+6.6 Routing Permission Granted
 
-8.4 Memory and Modeling sync
-
-Result must not violate long-term patterns.
-
-8.5 SSOT write-back
-
-• execution-result
-• state-delta
-• routing decision log
-• safety decision chain
-• governance approvals
-• drift-events (if any)
+Execution must be a legal next system.
 
 ──────────────────────────────────────────────
 
-9. Error, Drift, and Recovery Paths
+7. Execution Validation Rules
 
-ESIP defines deterministic error handling:
+Execution must satisfy:
 
-9.1 Type A — Mild
+7.1 Determinism Rule
 
-• missing precondition
-→ retry after correction
+Execution must produce identical outputs for identical inputs.
 
-9.2 Type B — Moderate
+7.2 Scope Rule
 
-• routing mismatch
-• modeling inconsistencies
-→ Backtracking → re-execute
+Execution cannot exceed the validated Task Model.
 
-9.3 Type C — Critical
+7.3 Non-Expansion Rule
 
-• safety violation
-→ stop → Recovery System
+Execution cannot:
+• add new steps
+• add new tasks
+• reinterpret earlier steps
+• invent new functionality
 
-9.4 Type D — Constitutional
+7.4 No Back-Editing Rule
 
-• Kernel or governance rule breach
-→ immediate halt + governance arbitration
+Execution cannot alter upstream decisions.
 
-All errors are logged to SSOT.
+7.5 Safety Dominance Rule
+
+Safety overrides all other systems.
+
+7.6 Audience Consistency Rule
+
+Output must match the locked audience profile.
+
+7.7 Intent Consistency Rule
+
+Step must reflect validated intent and not reinterpret.
+
+──────────────────────────────────────────────
+
+8. Drift Detection
+
+Execution drift occurs when:
+
+• a step contradicts intent
+• a step violates modeling constraints
+• output exceeds allowed reasoning depth
+• unsafe terminology appears
+• memory becomes inconsistent
+• routing mismatch detected
+• hallucinated steps appear
+• output structure breaks audience rules
+
+Drift triggers:
+→ Execution Drift
+→ Halt
+→ Backtracking
+→ Recovery Protocol
+→ Re-sync with Systems
+──────────────────────────────────────────────
+
+9. Downstream Integration
+
+Execution outputs flow to:
+
+9.1 Generation System
+
+• content realization
+• structure enforcement
+
+9.2 Memory System
+
+• memory updates
+• step-result storage
+
+9.3 Routing System
+
+• next-step legality
+
+9.4 Autonomy System
+
+• determines if autonomous execution allowed
+
+9.5 Safety System
+
+• safety classification updates
 
 ──────────────────────────────────────────────
 
 10. SSOT Integration
 
-ESIP must write:
+Execution must write to SSOT:
 
-• execution-context
-• execution-mode
-• execution-output
-• validation-hash
-• routing-path
-• safety-log
-• governance-log
+• execution-step
+• execution-graph state
 • drift-events
-• post-execution audit signature
+• safety logs
+• evaluation trace
+• step-output package
+• validation-hash
+• backtracking-chain
 
-SSOT entries are immutable and version-controlled.
+Everything must be immutable.
 
 ──────────────────────────────────────────────
 
 11. Forbidden Operations
 
-Execution System Integration Protocol must never:
+Execution Integration must never:
 
-• run execution without routing approval
-• override Safety or Governance
-• alter system-order flow
-• modify audience/profile data
-• generate or modify intent
-• bypass Pipeline
-• write to Kernel
-• trigger autonomous execution
+• invent tasks
+• chain unvalidated steps
+• bypass pipeline or routing
+• override safety or intent
+• use unvalidated memory
+• rewrite past history in SSOT
+• use personal or sensitive data
+• add new system transitions
+• merge execution with generation
 
-Violation requires governance escalation.
-
-──────────────────────────────────────────────
-
-12. Versioning
-
-v1.0 Initial Execution System Integration Protocol
-v1.1 Multi-step adaptive control
-v2.x Advanced execution orchestration
+Violations = constitutional errors.
 
 ──────────────────────────────────────────────
 
-13. File Location
+12. Error Classes
+Type A — Mild
+
+Incorrect structure → re-evaluate step.
+
+Type B — Moderate
+
+Modeling or audience mismatch → backtracking.
+
+Type C — Critical
+
+Unsafe step → stop, recovery.
+
+Type D — Constitutional
+
+Execution contradicts Kernel or Governance → system halt.
+
+──────────────────────────────────────────────
+
+13. Versioning
+
+v1.0 Initial Execution Integration Protocol
+v1.1 Multi-branch execution model
+v2.x Autonomous execution orchestration
+
+──────────────────────────────────────────────
+
+14. File Location
 
 system/execution/execution-integration-protocol-v1.0.md
 
