@@ -6,285 +6,213 @@ Status: Stable
 Owner: Prospera Architecture Group
 Category: System Specification
 
-────────────────────────────────
+────────────────────────────────────────
 
 1. Purpose
 
-The Autonomy System defines how Prospera OS performs self-driven, self-sequenced, and self-coordinated operations without user prompting, while remaining:
+The Autonomy System defines how Prospera OS executes controlled,
+governed autonomous behavior without violating Kernel rules,
+Governance policies, SSOT integrity, or Safety constraints.
 
-• fully governed
-• safety-constrained
-• deterministic
-• reversible
-• auditable
-• non-self-modifying
-• strictly compliant with Kernel rules
+The system enables:
 
-The Autonomy System does not grant “free will.”
-It provides a governed autonomy model that enables:
+• predictable self-progression  
+• governed task continuation  
+• safe long-horizon reasoning  
+• automatic downgrade and recovery  
+• strict guardrails on all autonomous decisions  
 
-• scheduled tasks
-• background maintenance
-• system optimization
-• proactive safety checks
-• drift monitoring
-• continuous improvement loops
+Autonomy does **not** mean independence — it means **governed progression
+under strict constraints**.
 
-All autonomous logic is executed by the Autonomy Engine.
-
-────────────────────────────────
+────────────────────────────────────────
 
 2. Scope
 
 The Autonomy System governs:
 
-• autonomous task creation
-• autonomous task scheduling
-• autonomous task execution contracts
-• background system maintenance
-• self-diagnostics and drift detection
-• system performance optimization loops
-• autonomous escalation to governance
-• multi-task orchestration
+• task continuation  
+• self-initiated steps within allowed boundaries  
+• cross-system progression  
+• evaluation of next actions  
+• compliance with Safety, Intent, and SSOT  
+• downgrade → stop → recovery sequences  
 
-The system does not:
+Autonomy does **not** perform execution; execution belongs to the
+Execution Engine.
 
-• modify Kernel rules
-• alter governance policies
-• rewrite its own logic
-• create unbounded autonomous chains
-• generate tasks outside safety/governance limits
+────────────────────────────────────────
 
-────────────────────────────────
+3. System Responsibilities
 
-3. System Principles
+3.1 Governed Progression  
+Ensure self-initiated behavior always remains:
 
-3.1 Constrained Autonomy
-Autonomy must always follow explicit rules defined by Kernel + Governance.
+• predictable  
+• reversible  
+• logged  
+• safety-checked  
+• SSOT-aligned  
 
-3.2 Deterministic Autonomy
-Given identical system state, autonomous decisions must be the same.
-
-3.3 Reversible Operation
-All autonomous actions must be reversible through backtracking or recovery.
-
-3.4 No Self-Modification
-Autonomy System cannot modify its own models, rules, or code.
+3.2 Autonomous State Machine  
+Defines allowed autonomy transitions:
 
-3.5 Safety and Governance Priority
-Autonomous tasks are permitted only when safe and policy-compliant.
+Idle → Evaluate → Continue → Complete  
+Idle → Downgrade → Stop → Recovery  
 
-3.6 Predictability
-Autonomy must behave predictably; no probabilistic or speculative behavior.
-
-────────────────────────────────
+3.3 Multi-Layer Constraint Enforcement  
+Autonomy must always respect:
 
-4. Autonomous Task Object (ATO)
-
-All autonomous operations must be defined through an ATO.
-
-4.1 ATO Structure
-
-ATO = {
- task-id
- task-type
- origin (system or governance)
- trigger-condition
- safety-contract
- governance-flags
- execution-contract
- routing-plan
- priority-level
- resource-limits
- ssot-anchor-version
- audit-header
-}
-
-4.2 ATO Rules
-
-• ATO must be approved by Safety + Governance
-• ATO must not create other ATOs unless explicitly permitted
-• ATO cannot contain generative or inference logic
-• ATO must specify deterministic triggers
-• ATO must reference SSOT for consistency
-• ATO cannot modify system logic or state outside authorized scope
+• Kernel invariants  
+• Governance policies  
+• System Layer boundaries  
+• Safety rules  
+• Routing constraints  
+• SSOT consistency  
 
-────────────────────────────────
+3.4 Task Continuation Engine Binding  
+Autonomy directs *whether* the system may continue;  
+Execution Engine determines *how* continuation happens.
 
-5. Autonomy Modes
-5.1 Mode A — Scheduled Autonomy
-
-Periodic tasks under governance-defined intervals.
-Examples:
-• data integrity checks
-• memory cleanup
-• safety audits
-• evidence consolidation
-
-5.2 Mode B — Event-Driven Autonomy
-
-Triggered by events such as:
-• safety violations
-• drift detection
-• routing errors
-• system overload
-• governance alerts
+3.5 Prevent Unsafe Escalation  
+Autonomy must block:
 
-5.3 Mode C — Adaptive Autonomy
+• self-escalating tasks  
+• uncontrolled recursion  
+• undeclared multi-step tasks  
+• out-of-scope goals  
+• goal drift  
+• hidden optimization behavior  
 
-Autonomy adjusts to system conditions, but still deterministic.
-Examples:
-• lowering task load under high resource usage
-• proactively generating recovery plans
-• adjusting routing complexity levels
+3.6 Auditability  
+All autonomous actions must produce:
 
-5.4 Mode D — Governance-Ordered Autonomy
+• rationale  
+• safety classification  
+• impact statement  
+• recovery plan (if needed)  
+• timestamps  
+• audit hash  
 
-Governance can force autonomous tasks:
-• full OS audit
-• mandatory rollback
-• SSOT consistency scanning
+────────────────────────────────────────
 
-────────────────────────────────
+4. Autonomy State Model
 
-6. Autonomy Lifecycle
+4.1 States
 
-Trigger
-Trigger occurs through schedules, events, or governance signals.
+• Idle — no self-directed action  
+• Evaluate — determining next possible steps  
+• Continue — proceeding with permitted continuation  
+• Downgrade — autonomy reduction due to risk  
+• Stop — termination of autonomy  
+• Recovery — handoff to Recovery System  
+• Complete — task sequence finished  
 
-Eligibility Check
-Validate task against:
-• safety
-• governance
-• routing legality
-• system load
-• SSOT alignment
+4.2 Transitions  
+Transitions are deterministic and governed by:
 
-Autonomous Contract Creation
-Autonomy System produces:
-• ATO
-• execution contract
-• routing constraints
+• Intent  
+• Safety  
+• Routing  
+• SSOT  
+• Governance policies  
 
-Pipeline Commit
-Task enters the pipeline and follows normal ordering rules.
+Illegal transitions:
 
-Execution
-Autonomy Engine performs assigned steps.
+• Continue → Continue (recursion loop)  
+• Continue → Escalate (not allowed)  
+• Evaluate → Execute (must pass through Routing)  
 
-Post-Execution Validation
-Ensure:
-• no unsafe state
-• no drift introduced
-• no SSOT violation
+────────────────────────────────────────
 
-Continuation or Termination
-System chooses:
-• schedule next cycle
-• generate follow-up ATO
-• escalate to governance
-• terminate autonomous sequence
+5. Interfaces
 
-────────────────────────────────
+5.1 Autonomy Decision Interface (ADI)  
+Determines whether continuation is allowed.
 
-7. Allowable Autonomous Actions
+5.2 Constraint Evaluation Interface (CEI)  
+Aggregates safety, intent, modeling, and memory signals.
 
-Autonomy may perform:
+5.3 Autonomy Impact Interface (AII)  
+Outputs effect classification:
 
-• consistency checks
-• safety audits
-• system health monitoring
-• memory cleanup and state normalization
-• snapshot creation
-• evidence archival
-• low-risk background tasks
-• routing graph verification
-• detect anomalies or drift
-• propose optimization tasks (governance must approve)
+Type A — Safe  
+Type B — Constrained  
+Type C — Critical (requires downgrade)  
+Type D — Constitutional (requires Kernel arbitration)  
 
-────────────────────────────────
+5.4 Recovery Handoff Interface (RHI)  
+Transfers failures to Recovery System.
 
-8. Forbidden Autonomous Actions
+────────────────────────────────────────
 
-Autonomy is strictly forbidden from:
+6. Autonomy Rules
 
-• modifying Kernel rules
-• modifying governance rules
-• changing routing maps
-• updating safety logic
-• writing to SSOT without commit authorization
-• generating new autonomous chains recursively
-• creating new systems, engines, or modules
-• altering Memory or Execution states without Pipeline
-• performing generative reasoning
-• predicting user preferences or traits
+6.1 Safety-Prioritized  
+Safety overrides all autonomy decisions.
 
-────────────────────────────────
+6.2 SSOT Alignment  
+Autonomy cannot contradict historical truth.
 
-9. Interaction With Other Systems
-9.1 Safety System
+6.3 No Goal Drift  
+Autonomy may not redefine goals.
 
-Validates autonomous tasks pre- and post-execution.
+6.4 Step-by-Step  
+Only primitive, reversible steps allowed.
 
-9.2 Governance Layer
+6.5 No Long-Horizon Expansion  
+Autonomy cannot plan beyond declared task boundaries.
 
-Approves, denies, or restricts autonomous operations.
+6.6 No Cross-Domain Jump  
+Must remain in the same declared domain context.
 
-9.3 Execution System
+6.7 Governance Override  
+Governance may freeze autonomy at any time.
 
-Executes tasks via the pipeline.
+────────────────────────────────────────
 
-9.4 Memory System
+7. Error Conditions
 
-Reads context; cannot write without commit stage.
+Autonomy errors include:
 
-9.5 Routing System
+• ambiguous next actions  
+• recursive continuation attempts  
+• out-of-scope task expansion  
+• unbounded reasoning loops  
+• safety-violating continuation  
+• SSOT inconsistency  
+• governance rule conflicts  
 
-Determines valid routing pathways.
+All errors route to Recovery System.
 
-9.6 Backtracking System
+────────────────────────────────────────
 
-Used if autonomy produces an unsafe or invalid state.
+8. Cross-System Dependencies
 
-9.7 Recovery System
+Autonomy System relies on:
 
-Handles autonomous execution failures.
+• Intent  
+• Safety  
+• User Modeling  
+• Memory  
+• Routing  
+• Execution  
+• Recovery  
 
-────────────────────────────────
+Autonomy must **never** bypass Safety or SSOT.
 
-10. Error & Classification Model
-Class A — Recoverable
+────────────────────────────────────────
 
-• minor ATO conflict
-→ corrected through retry
+9. Versioning
 
-Class B — Major
+v1.0 Initial Autonomy System Specification  
+v1.1 Multi-Stage Autonomy State Machine  
+v2.x Predictive Autonomy with Safety Constraints  
 
-• safety conflict
-→ autonomy downgraded or paused
+────────────────────────────────────────
 
-Class C — Critical
-
-• governance conflict
-→ autonomy terminated
-
-Class D — Constitutional
-
-• SSOT inconsistency
-→ Kernel arbitration required
-
-────────────────────────────────
-
-11. Versioning
-
-v1.0 Initial Autonomy System Specification
-v1.1 Autonomy State Machine
-v2.x Distributed Autonomous Agents (Governed)
-
-────────────────────────────────
-
-12. File Location
+10. File Location
 
 system/autonomy/autonomy-system-v1.0.md
 
-────────────────────────────────
+────────────────────────────────────────
