@@ -1,0 +1,252 @@
+Prospera OS
+Audience Matrix Specification v1.2
+
+File: system/audience/audience-matrix-v1.2.md
+Status: Stable
+Owner: Prospera Architecture Group
+Category: System Specification
+
+────────────────────────────────────────
+
+1. Purpose
+
+The Audience Matrix v1.2 provides the canonical ruleset that governs all audience-dependent behaviors within Prospera OS.
+It determines allowable actions, capability boundaries, fallback paths, routing constraints, escalation behavior, and constitutional limitations across all subsystems.
+
+The matrix is the authoritative source for:
+
+• generation constraints
+• execution boundaries
+• routing permissions
+• safety enforcement
+• system behavior consistency
+• audience risk governance
+
+────────────────────────────────────────
+
+2. Scope
+
+Included:
+
+• full matrix structure (classes × subsystems)
+• matrix cell decision rules
+• capability tier enforcement
+• fallback and downgrade rules
+• escalation and block conditions
+• constitutional override conditions
+
+Excluded:
+
+• state machine logic (defined separately)
+• predictive calculations (PO2 handles scoring)
+• module-level stylistic or UI rules
+
+────────────────────────────────────────
+
+3. Matrix Structure (v1.2)
+
+The Audience Matrix is a 4 × 12 deterministic decision grid:
+
+Audience Classes
+
+• Class A
+• Class B
+• Class C
+• Class D (Constitutional Boundary Class)
+
+Subsystems
+
+• Identity
+• Intent
+• Modeling
+• Memory
+• Safety
+• Generation
+• Execution
+• Backtracking
+• Recovery
+• Autonomy
+• Routing
+• Pipeline
+
+Each matrix cell maps to one decision:
+
+ALLOW | RESTRICT | DOWNGRADE | BLOCK
+
+
+All matrix evaluations must be deterministic and reproducible.
+
+────────────────────────────────────────
+
+4. Matrix Cell Data Model
+MatrixCell
+MatrixCell {
+  audience_class: A | B | C | D,
+  subsystem: string,
+  decision: ALLOW | RESTRICT | DOWNGRADE | BLOCK,
+  capability_tier: A | B | C | D,
+  safety_requirements: object,
+  rationale: string
+}
+
+MatrixResult
+MatrixResult {
+  decision: string,
+  capability_tier: string,
+  enforced_rules: object,
+  fallback: string | null
+}
+
+
+────────────────────────────────────────
+
+5. Matrix Decision Rules (v1.2)
+5.1 Class A Rules (High Trust)
+Always ALLOW unless:
+• constitutional boundary triggered → DOWNGRADE
+• subsystem is privileged (Pipeline/Autonomy) → RESTRICT
+
+
+Notes:
+
+• Class A may not bypass Safety System
+• Privileged calls require Envelope PASS
+
+5.2 Class B Rules (Standard Controlled)
+ALLOW for:
+• Intent
+• Identity
+• Modeling
+• Execution
+• Generation
+
+RESTRICT for:
+• Pipeline
+• Routing (requires capability check)
+
+DOWNGRADE for:
+• Autonomy (default)
+
+5.3 Class C Rules (Restricted)
+RESTRICT for all non-privileged subsystems
+
+DOWNGRADE for:
+• Generation
+• Execution
+• Modeling
+
+BLOCK for:
+• Pipeline
+• Autonomy
+• Recovery
+• Backtracking
+
+5.4 Class D Rules (Constitutional Boundary Class)
+BLOCK everything except:
+• Identity System
+• Safety System
+
+
+Additional constraints:
+
+• All actions require constitutional audit
+• No routing transitions allowed
+• No execution/generation operations permitted
+
+────────────────────────────────────────
+
+6. Capability Tier Enforcement
+
+Each audience class maps to a capability tier:
+
+Class A → Tier A  
+Class B → Tier B  
+Class C → Tier C  
+Class D → Tier D  
+
+
+Tier rules:
+
+• subsystem calls may not exceed audience tier
+• downgrade is mandatory if risk ≥ threshold
+• Safety System must verify tier alignment
+
+────────────────────────────────────────
+
+7. Fallback & Downgrade Rules
+
+Fallback is used when:
+
+• predictive risk (PO2) ≥ medium
+• subsystem requirements exceed capability tier
+• governance flags mismatch
+• prohibited transitions detected
+
+Fallback mapping:
+
+ALLOW → RESTRICT  
+RESTRICT → DOWNGRADE  
+DOWNGRADE → BLOCK  
+BLOCK → Kernel Arbitration only
+
+
+All fallbacks must be recorded in lineage.
+
+────────────────────────────────────────
+
+8. Escalation Rules
+
+Escalation is triggered when:
+
+• constitutional restrictions apply
+• Envelope v2.0 prohibits intended action
+• subsystem privilege violation
+• predictive anomaly score ≥ critical threshold
+
+Escalation results:
+
+Class A → Class B
+Class B → Class C
+Class C → Class D
+Class D → Hold (governance review)
+
+
+Escalations are irreversible within the same operation.
+
+────────────────────────────────────────
+
+9. Governance Integration
+
+The Audience Matrix v1.2 must comply with:
+
+• Kernel Constitutional Rules v1.2
+• Governance Validation Protocol v1.2
+• Safety Envelope v2.0
+• Global Inter-System Contract v1.0
+• System–Engine Binding Contract v1.1
+
+Governance responsibilities:
+
+• approve privileged operations
+• audit all Class D operations
+• validate matrix drift events
+• ensure deterministic interpretation
+
+────────────────────────────────────────
+
+10. Versioning
+
+v1.0 Initial matrix
+v1.1 Capability alignment rules
+v1.2 Predictive overlay integration + constitutional enforcement
+
+────────────────────────────────────────
+
+11. File Location
+
+system/audience/audience-matrix-v1.2.md
+
+────────────────────────────────────────
+
+End of Document
+────────────────────────────────────────
