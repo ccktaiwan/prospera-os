@@ -1,0 +1,80 @@
+Prospera OS
+Kernel Constitutional Rules v1.2
+
+File: kernel/kernel-constitutional-rules-v1.2
+Status: Stable
+Owner: Prospera Architecture Group
+Category: Kernel Specification
+
+Purpose
+The Kernel Constitutional Rules define the immutable laws governing the entire Prospera OS.
+These rules apply to all layers, systems, engines, modules, contracts, pipelines, and integrations.
+Kernel rules cannot be overridden, bypassed, or weakened by any component of Prospera OS.
+
+Immutability Rules
+2.1 Kernel rules are immutable and permanent.
+2.2 Kernel rules cannot be modified by System, Engine, or Module logic.
+2.3 No runtime component may violate, redefine, or reinterpret Kernel constraints.
+2.4 All governance and system behavior must resolve in favor of Kernel rules.
+
+Structural Rules
+3.1 Prospera OS consists of five permanent layers: Kernel Layer, Governance Layer, System Layer, Engine Layer, Module Layer.
+3.2 Layer boundaries are permanent and cannot be merged or collapsed.
+3.3 Higher layers may reference lower layers only through approved contracts.
+3.4 Lower layers must never reference or depend on higher layers.
+3.5 Cross-layer drift is strictly prohibited.
+
+Boundary Enforcement
+4.1 Kernel defines non-negotiable boundaries for all components.
+4.2 System Layer defines architecture but cannot execute logic.
+4.3 Engine Layer defines executable logic but cannot access platform behavior.
+4.4 Module Layer defines platform behavior but cannot store logic.
+4.5 Any violation must be blocked by Governance immediately.
+
+SSOT (Single Source of Truth) Requirements
+5.1 All entities must carry a verifiable SSOT lineage.
+5.2 Kernel is the root of the SSOT chain.
+5.3 No component may generate state that contradicts the SSOT chain.
+5.4 System, Engine, and Module components must declare their SSOT path.
+5.5 SSOT violations are considered critical system errors.
+
+Deterministic Behavior Rules
+6.1 Kernel requires all system-level behavior to be deterministic.
+6.2 Engines must maintain deterministic output given identical input and state.
+6.3 Modules may include non-deterministic elements only through platform-specific definitions.
+6.4 Pipeline routing must not introduce probabilistic drift.
+6.5 Any nondeterministic component must declare its risk class.
+
+Drift Isolation Rules
+7.1 All forms of behavioral drift must be detectable.
+7.2 Drift cannot propagate upward to System or Kernel.
+7.3 Engines must isolate internal drift.
+7.4 Modules must not generate uncontrolled drift from platform signals.
+7.5 Governance must stop any drift propagation within the OS.
+
+Phase-Lock Rules
+8.1 Execution phases must follow the Kernel-defined order.
+8.2 No system may skip, reorder, or insert phases.
+8.3 Phase changes require Kernel and Governance approval.
+8.4 Phase-Lock violations invalidate the operation.
+
+Versioning Rules
+9.1 Kernel version increments require a formal governance review.
+9.2 Kernel v1.x defines structural evolution.
+9.3 Kernel v2.x and above define architectural transitions.
+9.4 All components must declare version alignment with Kernel.
+9.5 Cross-version operation is forbidden.
+
+Enforcement Rules
+10.1 Governance Layer must enforce all Kernel rules.
+10.2 No component may execute if violating Kernel rules.
+10.3 Kernel cannot be bypassed through contracts or dynamic methods.
+10.4 Violation requires immediate blocking, quarantine, and repair.
+10.5 Kernel is final authority in all conflicts.
+
+File Location
+kernel/kernel-constitutional-rules-v1.2
+
+────────────────────────────────────────
+End of Document
+────────────────────────────────────────
