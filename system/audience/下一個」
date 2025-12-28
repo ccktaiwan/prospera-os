@@ -1,0 +1,243 @@
+Prospera OS
+Audience Signals Specification v1.2
+
+File: system/audience/audience-signals-v1.2.md
+Status: Stable
+Owner: Prospera Architecture Group
+Category: System Specification
+
+────────────────────────────────────────
+
+1. Purpose
+
+Audience Signals v1.2 define all allowable signals used for audience detection, classification, predictive scoring, and state transitions across Prospera OS.
+
+This specification ensures:
+
+• deterministic signal interpretation
+• governance-approved signal sources
+• zero unauthorized behavioral inference
+• predictive drift detection
+• multi-signal fusion aligned with PO2
+• subsystem-safe routing of audience metadata
+
+Audience Signals feed directly into:
+
+• Audience Classifier v1.2
+• Audience Matrix v1.2
+• Audience State Machine v2.0
+• Predictive Overlay v2.0
+• Safety Envelope v2.0
+• Routing System v1.2
+
+────────────────────────────────────────
+
+2. Scope
+
+Included:
+
+• definition of allowable signals
+• signal categories
+• signal normalization rules
+• permitted signal sources
+• prohibited signals
+• governance validation
+• predictive integration
+
+Excluded:
+
+• psychological inference
+• emotion decoding
+• user profiling
+• marketing or personalization signals
+
+────────────────────────────────────────
+
+3. Signal Architecture (v1.2)
+
+Audience Signals consist of four deterministic categories:
+
+3.1 Identity Signals
+
+• identity completeness
+• verification status
+• identity history consistency
+• SSOT lineage continuity
+
+3.2 Contextual Signals
+
+• request metadata
+• subsystem origin
+• frequency + stability
+• environment markers (non-personal)
+
+3.3 Behavioral Stability Signals
+
+• sequence stability (non-behavioral inference)
+• interaction variance
+• temporal coherence
+
+3.4 Predictive Risk Signals (PO2)
+
+• drift indicators
+• anomaly markers
+• multi-signal fusion risk score
+• constitutional boundary markers
+
+────────────────────────────────────────
+
+4. Allowed vs Prohibited Signals
+4.1 Allowed Signals
+
+Allowed signals are deterministic, non-personal, non-psychological, and governance-approved.
+
+Examples:
+
+• subsystem intent metadata
+• workload patterns
+• interaction context
+• identity trust level (non-sensitive)
+• Envelope v2.0 flags
+• predictive risk metrics (0-1.0)
+
+4.2 Prohibited Signals
+
+Strictly forbidden:
+
+• emotional inference
+• psychological profiling
+• demographic inference
+• personality prediction
+• health, medical, or personal traits
+• social attribute inference
+• inferred sentiment or tone
+
+Any prohibited signal → must trigger:
+
+• Envelope BLOCK
+• Class → D
+• ASM2 → ESCALATED
+
+────────────────────────────────────────
+
+5. Signal Data Model
+AudienceSignal
+AudienceSignal {
+  type: Identity | Context | Stability | Predictive,
+  value: any,
+  timestamp: ISO8601,
+  source: subsystem,
+  ssot_seed: string
+}
+
+NormalizedSignal
+NormalizedSignal {
+  signal_type: string,
+  normalized_value: number | string,
+  risk_weight: number,
+  ssot_hash: string
+}
+
+SignalBundle
+SignalBundle {
+  identity: [NormalizedSignal],
+  context: [NormalizedSignal],
+  stability: [NormalizedSignal],
+  predictive: [NormalizedSignal],
+  fusion_score: number
+}
+
+
+────────────────────────────────────────
+
+6. Signal Normalization Rules (v1.2)
+
+All signals must be:
+
+• deterministic
+• reproducible
+• bounded
+• non-probabilistic unless part of PO2
+• fully aligned with Kernel Constitutional Rules v1.2
+
+Normalization steps:
+
+validate allowable type
+
+convert to canonical numeric/string value
+
+apply risk weighting
+
+compute ssot_hash
+
+feed into fusion pipeline (PO2)
+
+────────────────────────────────────────
+
+7. Predictive Overlay v2.0 Integration
+
+Signals feed into PO2 using:
+
+• Weighted fusion
+• Anomaly detection models
+• Drift scoring
+• Governance-aligned risk interpretation
+
+Output:
+
+fusion_score (0–1.0)
+risk_level: LOW | MEDIUM | HIGH | CRITICAL
+
+
+Fusion rules:
+
+If prohibited signal detected → risk = CRITICAL
+If drift_score > 0.8 → escalate to Governance
+
+
+────────────────────────────────────────
+
+8. Governance Rules
+
+Governance Layer must audit:
+
+• signal legality
+• source subsystem validity
+• lineage consistency
+• Envelope v2.0 compliance
+• constitutional markers
+
+Any deviation → require HOLD state in ASM2.
+
+────────────────────────────────────────
+
+9. Subsystem Integration
+
+Audience Signals integrate with:
+
+• Classifier — feature vector input
+• Matrix — capability boundary enforcement
+• ASM2 — transition triggers
+• Routing — operational constraints
+• Safety — governance gating
+
+No module may use signals for personalization or behavioral inference.
+
+────────────────────────────────────────
+
+10. Versioning
+
+v1.0 Initial signal definition
+v1.1 Predictive integration
+v1.2 PO2 alignment + constitutional restrictions + deterministic normalization
+
+────────────────────────────────────────
+
+11. File Location
+
+system/audience/audience-signals-v1.2.md
+
+────────────────────────────────────────
+
+End of Document
+────────────────────────────────────────
