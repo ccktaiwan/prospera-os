@@ -1,4 +1,3 @@
-────────────────────────────────────────
 Prospera OS
 Execution System Specification v1.2
 
@@ -6,215 +5,248 @@ File: system/execution/execution-system-v1.2.md
 Status: Stable
 Owner: Prospera Architecture Group
 Category: System Specification
-────────────────────────────────────────
-
-Purpose
-
-The Execution System enforces the deterministic, governed, and capability-bounded execution of all subsystem actions, module calls, and generation outputs within Prospera OS.
-
-It guarantees that every execution path is:
-• deterministic
-• safety-validated
-• capability-compliant
-• lineage-recorded
-• governance-auditable
-
-Execution System v1.2 incorporates Governance Validation Protocol v1.2, Safety Envelope v2.0, and ERP v1.2, ensuring uniform behavior across Engines and Modules.
 
 ────────────────────────────────────────
 
-Scope
+1. Purpose
+
+The Execution System is the only system authorized to perform real actions within Prospera OS.
+
+It translates validated system decisions into controlled execution outcomes while enforcing:
+
+Safety cutoffs
+
+Governance authority
+
+Kernel constitutional boundaries
+
+Deterministic execution behavior
+
+The Execution System does not decide what to do.
+It only decides whether execution is permitted and how it is carried out safely.
+
+────────────────────────────────────────
+
+2. Scope
 
 Included:
-• execution of subsystem actions
-• execution of module operations
-• Execution Gateway enforcement
-• ERP validation and sealing
-• deterministic run replay
-• SSOT lineage recording
-• capability / permission enforcement
-• predictive safety integration
+
+Execution authorization
+
+ERP validation and enforcement
+
+Safety-gated dispatch
+
+Execution lifecycle control
+
+Post-execution logging and sealing
 
 Excluded:
-• module internal logic
-• engine micro-algorithms
-• human-driven execution steps
+
+Decision making
+
+Intent interpretation
+
+Routing logic
+
+Module-internal behavior
+
+Engine-level execution logic
 
 ────────────────────────────────────────
 
-Execution Architecture (v1.2)
+3. System Authority and Position
 
-Execution System consists of:
+The Execution System operates:
 
-Execution Gateway (EG)
-Primary enforcement point for ERP validation, safety, and capability filters.
+After Routing System
 
-Execution Validator (EV)
-Deterministic verification of ERP → execution path mapping.
+After Safety System validation
 
-Execution Engine Interface (EEI)
-Abstract boundary ensuring Engines cannot bypass safety or routing constraints.
+Within Pipeline System ordering
 
-Module Dispatch Layer (MDL)
-Safe module call system with capability-bounded behavior.
+Under Kernel and Governance authority
 
-Audit & Lineage Recorder (ALR)
-Captures immutable execution logs and SSOT hashes.
+It may not be invoked directly by:
 
-────────────────────────────────────────
+Engines
 
-Execution Data Model
+Modules
 
-4.1 ExecutionPayload
-ExecutionPayload {
- erp: ERP,
- caller: subsystem,
- target: subsystem | module,
- params: object,
- context: ExecutionContext
-}
+Models
 
-4.2 ExecutionDecision
-ExecutionDecision {
- route: string,
- capability_class: A | B | C | D,
- required_validations: [ValidationCheck],
- safety_profile: SafetyProfile,
- deterministic_hash: string
-}
+External callers
 
-4.3 ExecutionResult
-ExecutionResult {
- status: success | failure | escalated,
- output: object,
- lineage_hash: string,
- safety_flags: [Flag],
- governance_notes: object
-}
-
-ExecutionResult is immutable once committed.
+All execution must originate from a validated Enforcement Requirement Packet (ERP).
 
 ────────────────────────────────────────
 
-Execution Flow (v1.2)
+4. Core Responsibilities
 
-Stage 1 — ERP Intake
-• accept immutable ERP from Routing System
-• normalize payload
-• reject if ERP mutated or replay-invalid
+The Execution System is responsible for:
 
-Stage 2 — Governance Validation (v1.2)
-• apply Governance Validation Protocol v1.2
-• verify capability, permissions, and boundary constraints
-• enforce kernel restrictions
-• seal G1
+Verifying ERP integrity and completeness
 
-Stage 3 — Safety Envelope v2.0
-• predictive anomaly scoring
-• constitutional safety evaluation
-• drift detection
-• escalation if ≥ threshold
-• seal S1
+Enforcing Execution Safety Cutoff Rules v1.0
 
-Stage 4 — Execution Mapping
-• resolve deterministic execution route
-• verify subsystem/module mapping
-• seal X1
+Dispatching execution requests via approved gateways
 
-Stage 5 — Engine / Module Dispatch
-• call appropriate Engine Interface or Module Dispatch Layer
-• enforce permission & capability filters
-• ensure deterministic behavior and no stochastic output
+Managing execution state transitions
 
-Stage 6 — Result Construction
-• construct immutable ExecutionResult
-• generate lineage hash
-• write SSOT entry
+Recording immutable execution outcomes
+
+No responsibility beyond this scope is permitted.
 
 ────────────────────────────────────────
 
-Execution Boundary Rules (v1.2)
+5. Execution Lifecycle
+5.1 Pre-Execution Validation
 
-Subsystem → Engine calls must:
-• follow ERP route
-• comply with subsystem capabilities
-• pass governance validation
+Before any execution:
 
-Subsystem → Module calls must:
-• use Module Boundary Rules v1.0
-• apply module-safe capability subclass
-• follow deterministic dispatch path
+ERP schema validated
 
-Prohibited actions:
-• arbitrary module execution
-• bypassing Execution Gateway
-• modifying ERP fields
-• stochastic output generation
-• recursive engine-to-engine execution
-• self-mutating subsystem calls
+ERP hash verified
+
+Caller authorization checked
+
+Safety clearance confirmed
+
+Autonomy scope verified
+
+Failure at this stage triggers immediate halt.
 
 ────────────────────────────────────────
 
-Safety & Predictive Enforcement
+5.2 Execution Authorization
 
-Execution integrates Safety Envelope v2.0:
-• predictive scoring
-• determinism checks
-• boundary validation
-• drift response classification
+Execution is authorized only if:
 
-If predicted risk ≥ threshold → escalate to Kernel arbitration.
+ERP is valid and intact
 
-────────────────────────────────────────
+Safety System clearance is active
 
-Execution Error Model
+Governance constraints are satisfied
 
-Type A — Soft Execution Error
-• recoverable
-• fallback execution path available
+No cutoff condition is present
 
-Type B — Hard Execution Error
-• deterministic mapping failure
-• pipeline termination
-
-Type C — Safety Violation
-• anomaly or safety boundary breach
-• forced halt + recovery
-
-Type D — Constitutional Violation
-• illegal execution path
-• mandatory kernel arbitration
+Authorization is single-use and non-transferable.
 
 ────────────────────────────────────────
 
-Governance Integration
+5.3 Execution Dispatch
 
-Execution System v1.2 aligns with:
-• Kernel Constitutional Rules v1.2
-• Governance Validation Protocol v1.2
-• Enforcement & Safety Contract v1.1
-• Global Inter-System Contract v1.0
+Upon authorization:
 
-Execution behavior must be:
-• consistent across replays
-• invariant across engines
-• audit-ready
-• lineage-verifiable
+Execution request is dispatched through approved gateways
+
+No direct Module invocation is allowed
+
+Execution context is sealed
+
+Dispatch behavior must be deterministic and replayable.
 
 ────────────────────────────────────────
 
-Versioning
+5.4 Execution Monitoring
 
-v1.0 Initial Execution System
-v1.1 ERP formalization + deterministic replay
-v1.2 Full governance alignment, Safety Envelope v2.0, capability rewrite
+During execution:
+
+Safety conditions are continuously re-evaluated
+
+Execution drift is monitored
+
+Any cutoff condition triggers immediate halt
+
+No adaptive behavior is allowed at this stage.
 
 ────────────────────────────────────────
 
-File Location
+5.5 Post-Execution Handling
+
+After execution:
+
+Execution outcome is logged
+
+ERP is marked as consumed
+
+Memory writes are sealed
+
+Execution session is closed
+
+No automatic retries are permitted.
+
+────────────────────────────────────────
+
+6. Failure Handling
+
+Execution failures are classified as:
+
+Safety Halt — triggered by Safety System or cutoff rules
+
+Authorization Failure — ERP or caller invalid
+
+Execution Error — downstream failure after authorization
+
+All failures:
+
+Are logged immutably
+
+Cannot be retried automatically
+
+Must follow Cross-System Failure Matrix v1.0
+
+────────────────────────────────────────
+
+7. Governance Integration
+
+The Execution System is governed by:
+
+Kernel Constitutional Rules v1.2
+
+Governance Validation Protocol v1.2
+
+Execution Safety Cutoff Rules v1.0
+
+Cross-System Failure Matrix v1.0
+
+Any violation constitutes a Critical Architecture Breach.
+
+────────────────────────────────────────
+
+8. Prohibited Behaviors
+
+The Execution System must never:
+
+Interpret intent
+
+Modify routing decisions
+
+Bypass safety checks
+
+Invoke modules directly
+
+Self-retry execution
+
+Escalate autonomy scope
+
+Violations require immediate governance action.
+
+────────────────────────────────────────
+
+9. Versioning
+
+v1.0 Initial execution system definition
+v1.1 ERP enforcement clarification
+v1.2 Safety cutoff integration and governance alignment
+
+────────────────────────────────────────
+
+10. File Location
 
 system/execution/execution-system-v1.2.md
 
 ────────────────────────────────────────
+
 End of Document
 ────────────────────────────────────────
