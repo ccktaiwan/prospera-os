@@ -1,275 +1,260 @@
-# Prospera OS v1.2  
+Prospera OS
 Audience System v1.2
 
-Document Level: System Engineering  
-Status: Stable / Implementable  
-Mode: Full-Stability Mode  
-Scope: Prospera OS Core System  
+File: system/audience/audience-system-v1.2.md
+Status: Stable
+Owner: Prospera Architecture Group
+Category: System
 
----
+Purpose
 
-## System Rebirth Statement
+This document defines the Audience System of Prospera OS v1.2.
 
-Audience System no longer answers the question  
-"Who is my audience?"
+Audience System specifies how Prospera OS identifies, validates, and governs human presence and behavior as a deterministic system component.
 
-Audience System v1.2 answers three engineering-level questions:
+Audience is treated as a system state, not as a persona, segment, demographic label, or marketing construct.
 
-- Who is the system currently interacting with
-- What decision state they are currently in
-- Whether their movement can be verified by data
+This system exists to ensure that all downstream systems operate on verified human behavior rather than assumed intent.
 
-Audience System v1.2 is the human-behavior synchronization layer of Prospera OS.
+System Responsibility
 
----
+The Audience System is responsible for the following determinations.
 
-## System Role in Prospera OS
+2.1 Interaction Existence
+Determining whether the system is interacting with a human entity.
 
-Audience System v1.2 functions as:
+2.2 Decision State
+Determining the current decision state of that interaction.
 
-- Target engine for the Content System  
-- Behavior decoder for the Data System  
-- Rhythm reference for the Conversion System  
-- Human-side anchor for the Governance Layer  
+2.3 State Movement Verification
+Determining whether movement between states is supported by verifiable signals.
 
-Audience is not a static persona.  
-Audience is a verifiable, transferable, and traceable behavior state.
+The Audience System represents the authoritative human-behavior layer within Prospera OS.
 
----
+System Position and Boundaries
 
-## System Architecture Overview
+The Audience System interfaces with the following layers.
 
-Audience System v1.2 consists of four core modules:
+3.1 Content System
+Provides validated audience state for state-targeted content output.
 
-- Audience State Engine  
-- Audience Signal Layer  
-- Audience Transition Logic  
-- Audience Governance Rules  
+3.2 Conversion System
+Provides verified state context for action and conversion validation.
 
-These four modules correspond to Content, Data, Conversion, and Governance layers in Prospera OS.
+3.3 Governance Layer
+Provides auditable state data for outcome verification.
 
----
+The Audience System does not generate content.
+The Audience System does not optimize traffic.
+The Audience System does not execute conversions.
 
-## Module 1: Audience State Engine
+Its sole responsibility is state validation.
 
-### Definition
+Core Architecture
 
-Audience State Engine is a finite state machine.  
-At any given time, each user exists in one and only one state.
+The Audience System consists of four mandatory components.
 
-### Standard State Model
+4.1 Audience State Engine
+4.2 Audience Signal Layer
+4.3 Audience Transition Logic
+4.4 Audience Governance Rules
 
-Audience System v1.2 defines five states:
+No component may be bypassed or removed.
 
-- Unaware  
-- Aware  
-- Engaged  
-- Committed  
-- Retained  
+Audience State Engine
 
-These are system states, not psychological descriptions.
+The Audience State Engine is implemented as a finite state machine.
 
----
+At any point in time, a single user entity must exist in exactly one state.
 
-### State Definitions
+Parallel or overlapping states are not permitted.
 
-Unaware  
-- No first-party event triggered  
-- Exists only at exposure level  
+Historical states must remain auditable.
 
-Observable signals:  
-- Impression  
-- Reach  
-- No session or session under 5 seconds  
+Audience States
 
----
+The system defines exactly five audience states.
 
-Aware  
-- Valid session created  
-- No interaction event triggered  
+6.1 Unaware
+6.2 Aware
+6.3 Engaged
+6.4 Committed
+6.5 Retained
 
-Observable signals:  
-- Session over 10 seconds  
-- Page view equal or greater than 2  
-- No click, no form, no chat  
+All states are operational system states.
 
----
+States are not psychological descriptors.
 
-Engaged  
-- At least one interaction event triggered  
+State Definitions
 
-Observable signals (any):  
-- Button click  
-- Scroll depth equal or greater than 50 percent  
-- Video view equal or greater than 30 percent  
-- LINE add friend  
+7.1 State Unaware
 
----
+Definition
+The system has exposure-level contact only and no verified first-party interaction.
 
-Committed  
-- Core conversion completed  
+Verification Signals
 
-Observable signals (any):  
-- Form submitted  
-- Appointment completed  
-- Manual conversation initiated  
+Impression recorded
 
----
+Reach recorded
 
-Retained  
-- Revisit or repeated interaction verified  
+No valid session or session duration under five seconds
 
-Observable signals (any):  
-- Two or more revisits within 30 days  
-- Repeated conversion  
-- Ongoing content interaction  
+7.2 State Aware
 
----
+Definition
+A valid session exists without verified interaction intent.
 
-### Engine Rules
+Verification Signals
 
-- State changes must be event-driven  
-- Multiple simultaneous states are not allowed  
-- Every transition must be traceable  
+Session duration greater than ten seconds
 
----
+Page views equal to or greater than two
 
-## Module 2: Audience Signal Layer
+No interaction events triggered
 
-### Definition
+7.3 State Engaged
 
-Audience Signal Layer collects all human behavior inputs that Prospera OS can verify.
+Definition
+A verified intent-bearing interaction has occurred.
 
-Signals are raw materials for state decisions, not reports.
+Verification Signals
 
----
+Button click
 
-### Signal Categories
+Scroll depth equal to or greater than fifty percent
 
-- Exposure Signals  
-- Interaction Signals  
-- Conversion Signals  
-- Retention Signals  
+Video view equal to or greater than thirty percent
 
----
+LINE add friend
 
-### Signal-to-State Mapping
+Any single signal is sufficient.
 
-Exposure signals determine Unaware persistence  
-Interaction signals enable Engaged transition  
-Conversion signals lock Committed state  
-Retention signals validate Retained state  
+7.4 State Committed
 
----
+Definition
+A primary conversion action has been completed.
 
-### Engineering Constraints
+Verification Signals
 
-Every signal must have:
+Form submission
 
-- A defined event name  
-- A defined data source  
-- A verification tool (GA4, LINE, CRM, Meta)
+Appointment confirmation
 
-Unverifiable signals are treated as non-existent.
+Human-initiated conversation
 
----
+Any single signal is sufficient.
 
-## Module 3: Audience Transition Logic
+7.5 State Retained
 
-### Definition
+Definition
+Repeated or sustained interaction has been verified across time.
 
-Audience Transition Logic answers one system question:
+Verification Signals
 
-What should the system do next, and for whom?
+Two or more revisits within thirty days
 
----
+Repeated conversion
 
-### Conditional Transitions
+Ongoing content interaction
 
-State transitions are condition-based, not funnel-based.
+Any single signal is sufficient.
 
-Examples:
+State Engine Constraints
 
-Aware to Engaged  
-- Triggered by intent-based interaction, not page count  
+8.1 State changes must be event-driven.
+8.2 State changes must be triggered only by verified signals.
+8.3 State transitions must be auditable.
+8.4 State rollback is permitted only through new events.
 
-Engaged to Committed  
-- Triggered by conversion action, not time spent  
+Audience Signal Layer
 
----
+The Audience Signal Layer defines which inputs the system is allowed to observe.
 
-### Stalled States
+Signals are treated as raw inputs.
 
-If a user remains too long without transition:
+Signals are not interpretations, summaries, or conclusions.
 
-- Stalled-Aware  
-- Stalled-Engaged  
+Signal Categories
 
-These indicate content or rhythm mismatch, not system failure.
+All signals must belong to exactly one category.
 
----
+10.1 Exposure Signals
+10.2 Interaction Signals
+10.3 Conversion Signals
+10.4 Retention Signals
 
-## Module 4: Audience Governance Rules
+Signals must not exist outside these categories.
 
-### Definition
+Signal Validity Rules
 
-Governance rules prevent system self-deception.
+Each signal must have all of the following.
 
----
+11.1 A defined event name
+11.2 A defined data source
+11.3 A defined verification mechanism
 
-### Governance Principles
+Signals that cannot be verified must be ignored by the system.
 
-- No assumed intent  
-- No vanity metrics as success indicators  
-- No state skipping  
-- No single event defines long-term relationship  
+Audience Transition Logic
 
----
+Audience Transition Logic governs movement between states.
 
-### Common Misjudgments Corrected in v1.2
+Transitions are conditional and deterministic.
 
-High LINE friend count does not equal retention  
-Traffic growth does not equal audience growth  
+Transitions must not assume linear progression.
 
-Only Engaged, Committed, and Retained states represent real audience value.
+Transition Principles
 
----
+13.1 Page count does not imply intent.
+13.2 Time spent does not imply commitment.
+13.3 Only verified actions trigger state transitions.
 
-## System Outputs
+Stalled States
 
-Audience System v1.2 outputs only three elements:
+If a user remains in a state beyond expected duration without transition, the system must mark a stalled condition.
 
-- Current audience state distribution  
-- State transition rates and bottlenecks  
-- Actionable content and conversion directives  
+14.1 Stalled Unaware
+14.2 Stalled Aware
+14.3 Stalled Engaged
 
-No descriptive reports.  
-Only executable system outputs.
+Stalled states indicate system mismatch, not user failure.
 
----
+Audience Governance Rules
 
-## System Integration
+Audience Governance Rules exist to prevent false positives and system self-deception.
 
-Audience System informs:
+Governance Constraints
 
-- Content System on target state  
-- Conversion System on CTA validity  
-- Governance Layer on outcome authenticity  
+16.1 Assumed intent is prohibited.
+16.2 Vanity metrics must not define success.
+16.3 State skipping is prohibited.
+16.4 Single events must not define long-term value.
 
----
+Common Misinterpretations
 
-## Summary
+High follower or friend counts do not imply retention.
 
-Audience System v1.2 is not a marketing module.
+Traffic growth does not imply audience growth.
 
-It is the only system layer that represents verified human behavior inside Prospera OS.
+Only Engaged, Committed, and Retained states represent validated audience value.
 
-It exists to prevent:
+System Outputs
 
-- Data illusion  
-- Content self-satisfaction  
-- Conversion misinterpretation  
+The Audience System produces exactly three outputs.
 
----
+18.1 Current audience state distribution
+18.2 State transition performance metrics
+18.3 Action directives for dependent systems
 
-End of Audience System v1.2
+The Audience System does not produce narrative reports.
+
+Version Alignment
+
+This document is aligned with Prospera OS Kernel v1.2.
+
+All dependent documents must maintain version alignment.
+
+────────────────────────────────────────
+End of Document
+────────────────────────────────────────
