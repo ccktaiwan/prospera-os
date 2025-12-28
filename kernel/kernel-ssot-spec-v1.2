@@ -1,0 +1,75 @@
+Prospera OS
+SSOT Specification v1.2
+
+File: kernel/kernel-ssot-spec-v1.2
+Status: Stable
+Owner: Prospera Architecture Group
+Category: Kernel Specification
+
+Purpose
+The SSOT (Single Source of Truth) Specification defines how truth, identity, state, and lineage are stored, validated, and propagated across Prospera OS.
+The SSOT rules in this document are mandatory for all layers, systems, engines, modules, and contracts.
+Any violation of SSOT lineage is considered a critical system failure.
+
+SSOT Core Principles
+2.1 SSOT is the canonical truth source for all system state.
+2.2 All components must reference SSOT and cannot maintain their own truth stores.
+2.3 SSOT lineage must remain complete, traceable, deterministic, and tamper-proof.
+2.4 SSOT cannot be duplicated, shadowed, or partially implemented.
+2.5 SSOT is owned by the Kernel and cannot depend on lower layers.
+
+SSOT Lineage Rules
+3.1 Each component must declare its SSOT lineage path.
+3.2 All lineage must originate from Kernel-level structures.
+3.3 System components must maintain pure lineage without introducing state.
+3.4 Engines may read SSOT but cannot create, mutate, or fork lineage.
+3.5 Modules must only operate on SSOT-consistent platform signals.
+
+State Truth Rules
+4.1 SSOT contains the only valid state representation in Prospera OS.
+4.2 State must not be stored in engines, modules, or pipelines.
+4.3 No component may cache or rewrite state outside SSOT.
+4.4 Inconsistencies must trigger Governance remediation.
+4.5 Truth conflicts must always resolve in favor of Kernel SSOT.
+
+SSOT Access Rules
+5.1 Systems may read SSOT but cannot modify it.
+5.2 Engines may perform read-only operations based on approved contracts.
+5.3 Modules may not access SSOT directly; they operate via validated signals.
+5.4 Contracts may define limited SSOT access but cannot override Kernel rules.
+5.5 Unauthorized SSOT access is a critical violation.
+
+SSOT Mutation Rules
+6.1 Only Kernel-controlled processes may mutate SSOT.
+6.2 Governance must approve all mutations.
+6.3 System, Engine, and Module layers are prohibited from writing to SSOT.
+6.4 SSOT mutations must be deterministic, auditable, and reversible.
+6.5 All mutations must be recorded in SSOT lineage.
+
+SSOT Drift and Conflict Rules
+7.1 SSOT drift is not allowed under any circumstances.
+7.2 Any detected drift requires immediate system quarantine.
+7.3 Engines must detect drift but cannot correct it.
+7.4 Governance initiates drift correction processes.
+7.5 SSOT conflicts must halt execution until resolved.
+
+SSOT Propagation Rules
+8.1 SSOT truth flows downward from Kernel to Modules.
+8.2 No upward propagation is allowed from Modules or Engines.
+8.3 System components must preserve SSOT without mutation.
+8.4 Pipelines must not alter SSOT during routing.
+8.5 All propagation must be deterministic.
+
+Versioning Rules
+9.1 SSOT Specification v1.2 introduces full lineage structure.
+9.2 All components must migrate to SSOT v1.2 before enabling new features.
+9.3 SSOT version misalignment invalidates dependent components.
+9.4 Systems and Engines must declare SSOT version alignment in metadata.
+9.5 Contract-level lineage must match SSOT v1.2 schema.
+
+File Location
+kernel/kernel-ssot-spec-v1.2
+
+────────────────────────────────────────
+End of Document
+────────────────────────────────────────
