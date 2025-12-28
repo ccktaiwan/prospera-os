@@ -1,5 +1,4 @@
 Prospera OS
-
 Pipeline System Specification v1.2
 
 File: system/pipeline/pipeline-system-v1.2.md
@@ -11,312 +10,185 @@ Category: System Specification
 
 1. Purpose
 
-The Pipeline System defines the deterministic multi-stage processing chain that governs how data, intents, system calls, generation outputs, execution plans, and validations move through Prospera OS.
+The Pipeline System defines the canonical execution order and control flow for all system interactions within Prospera OS.
 
-It guarantees safety, ordering, immutability, and SSOT lineage for all cross-system and cross-module transformations.
+It ensures that:
 
-────────────────────────────────────────
+systems are invoked in a deterministic sequence
 
-2. Scope
+no system bypasses required validation stages
 
-This specification applies to:
+execution remains auditable, replayable, and governable
 
-• all system-to-system data flow
-• stage-based processing within Pipeline Engine
-• kernel-validated transformations
-• routing-dependent stage ordering
-• execution gateway integration
-• module-safe normalization boundaries
-
-Excludes:
-
-• module-internal transformations
-• engine-specific optimizations
-• human workflow policy
-
-────────────────────────────────────────
-
-3. Canonical Pipeline Architecture (v1.2)
-
-The canonical pipeline consists of seven immutable stages:
-
-Intake Stage
-
-Normalization Stage
-
-Validation Stage
-
-Routing Stage
-
-Generation Stage
-
-Execution Stage
-
-Finalization & Lineage Stage
-
-Each stage is deterministic, side-effect-free, and subject to kernel governance.
-
-────────────────────────────────────────
-
-4. Stage Definitions
-4.1 Intake Stage
-
-• accepts raw request payloads
-• constructs Pipeline Intake Object (PIO)
-• stamps SSOT timestamp T₀
-• enforces immutability seal #1
-
-4.2 Normalization Stage
-
-• canonicalizes schema
-• removes non-permitted attributes
-• applies Adapter and Module Driver rules
-• enforces immutability seal #2
-
-4.3 Validation Stage
-
-• safety envelope checks
-• capability boundary checks
-• deterministic ordering validation
-• autonomy-level constraints
-• immutability seal #3
-
-4.4 Routing Stage
-
-• matrix-based decision computation
-• subsystem routing derivation
-• Enforcement Requirement Packet (ERP) construction
-• immutability seal #4
-
-4.5 Generation Stage
-
-• transforms validated PIO into structured generation state
-• applies Generation System State Machine
-• safety envelope v2.0 predictive scoring
-• immutability seal #5
-
-4.6 Execution Stage
-
-• executes permitted operations
-• interacts with Execution Gateway
-• logs deterministic state transitions
-• immutability seal #6
-
-4.7 Finalization & Lineage Stage
-
-• assembles Final Deterministic Object (FDO)
-• generates lineage map for SSOT storage
-• forwards data to Kernel Audit Store
-• immutability seal #7
-
-────────────────────────────────────────
-
-5. Safety and Determinism Rules (v1.2)
-5.1 Deterministic Ordering
-
-• no stochastic model behavior allowed
-• parallelism only allowed if commutative
-• pipeline outcome must be reproducible
-
-5.2 Permission and Boundary Enforcement
-
-• module-safe operations only
-• no cross-system privileged access
-• subsystem actions filtered by capability class (A/B/C/D)
-
-5.3 Predictive / Safety Envelope (v2.0)
-
-• integrated anomaly scoring
-• drift detection
-• soft-failure fallback routes
-
-────────────────────────────────────────
-
-6. Pipeline Engine Interface Contract
-
-Input:
-Prospera OS
-
-Pipeline System Specification v1.2
-
-File: system/pipeline/pipeline-system-v1.2.md
-Status: Stable
-Owner: Prospera Architecture Group
-Category: System Specification
-
-────────────────────────────────────────
-
-1. Purpose
-
-The Pipeline System defines the deterministic multi-stage processing chain that governs how data, intents, system calls, generation outputs, execution plans, and validations move through Prospera OS.
-
-It guarantees safety, ordering, immutability, and SSOT lineage for all cross-system and cross-module transformations.
+The Pipeline System does not make decisions and does not execute actions.
+It only governs when and in what order systems may operate.
 
 ────────────────────────────────────────
 
 2. Scope
 
-This specification applies to:
+Included:
 
-• all system-to-system data flow
-• stage-based processing within Pipeline Engine
-• kernel-validated transformations
-• routing-dependent stage ordering
-• execution gateway integration
-• module-safe normalization boundaries
+canonical system ordering
 
-Excludes:
+stage-to-stage dependency enforcement
 
-• module-internal transformations
-• engine-specific optimizations
-• human workflow policy
+pipeline state tracking
 
-────────────────────────────────────────
+failure propagation control
 
-3. Canonical Pipeline Architecture (v1.2)
+replay and audit alignment
 
-The canonical pipeline consists of seven immutable stages:
+Excluded:
 
-Intake Stage
+routing logic
 
-Normalization Stage
+execution logic
 
-Validation Stage
+safety evaluation logic
 
-Routing Stage
+engine-level orchestration
 
-Generation Stage
-
-Execution Stage
-
-Finalization & Lineage Stage
-
-Each stage is deterministic, side-effect-free, and subject to kernel governance.
+module-specific flows
 
 ────────────────────────────────────────
 
-4. Stage Definitions
-4.1 Intake Stage
+3. System Authority and Position
 
-• accepts raw request payloads
-• constructs Pipeline Intake Object (PIO)
-• stamps SSOT timestamp T₀
-• enforces immutability seal #1
+The Pipeline System operates:
 
-4.2 Normalization Stage
+above all individual Systems
 
-• canonicalizes schema
-• removes non-permitted attributes
-• applies Adapter and Module Driver rules
-• enforces immutability seal #2
+below Kernel and Governance
 
-4.3 Validation Stage
+as the mandatory orchestration backbone
 
-• safety envelope checks
-• capability boundary checks
-• deterministic ordering validation
-• autonomy-level constraints
-• immutability seal #3
+No System, Engine, or Module may:
 
-4.4 Routing Stage
+skip a pipeline stage
 
-• matrix-based decision computation
-• subsystem routing derivation
-• Enforcement Requirement Packet (ERP) construction
-• immutability seal #4
+reorder stages
 
-4.5 Generation Stage
+re-enter a closed stage
 
-• transforms validated PIO into structured generation state
-• applies Generation System State Machine
-• safety envelope v2.0 predictive scoring
-• immutability seal #5
-
-4.6 Execution Stage
-
-• executes permitted operations
-• interacts with Execution Gateway
-• logs deterministic state transitions
-• immutability seal #6
-
-4.7 Finalization & Lineage Stage
-
-• assembles Final Deterministic Object (FDO)
-• generates lineage map for SSOT storage
-• forwards data to Kernel Audit Store
-• immutability seal #7
+All actions must conform to the Pipeline order.
 
 ────────────────────────────────────────
 
-5. Safety and Determinism Rules (v1.2)
-5.1 Deterministic Ordering
+4. Canonical Pipeline Stages (v1.2)
 
-• no stochastic model behavior allowed
-• parallelism only allowed if commutative
-• pipeline outcome must be reproducible
+The Prospera OS pipeline consists of the following immutable stages:
 
-5.2 Permission and Boundary Enforcement
+Identity Resolution
 
-• module-safe operations only
-• no cross-system privileged access
-• subsystem actions filtered by capability class (A/B/C/D)
+Intent Classification
 
-5.3 Predictive / Safety Envelope (v2.0)
+User Modeling
 
-• integrated anomaly scoring
-• drift detection
-• soft-failure fallback routes
+Routing Evaluation
 
-────────────────────────────────────────
+Safety Evaluation
 
-6. Pipeline Engine Interface Contract
+Execution Authorization
 
-Input:
-PipelineIntake {
-  ssot_t0: timestamp,
-  raw_payload: object,
-  caller: subsystem,
-  intent: string,
-  context: object
-}
-Output:
-FinalDeterministicObject {
-  result: object,
-  lineage: SSOTrace,
-  seals: [s1..s7]
-}
-All fields immutable once produced.
+Execution Dispatch
+
+Post-Execution Sealing
+
+Recovery or Backtracking (if required)
+
+Stages are strictly sequential and single-pass per execution session.
 
 ────────────────────────────────────────
 
-7. Error Model
-Type A — Soft Error
+5. Stage Transition Rules
 
-• recoverable
-• fallback routing applied
-• logged to kernel
+A stage may proceed only if the previous stage completed successfully
 
-Type B — Hard Error
+Failure at any stage invokes Cross-System Failure Matrix v1.0
 
-• pipeline halt
-• requires governance escalation
+No automatic retries are permitted within the same pipeline run
 
-Type C — Constitutional Violation
+Pipeline state is sealed at each stage boundary
 
-• automatic block
-• triggers Kernel Arbitration
+Stage transitions are deterministic and replayable.
 
 ────────────────────────────────────────
 
-8. Versioning
+6. Failure Propagation
 
-v1.0 Initial specification
-v1.1 Reordered stages and introduced predictive checks
-v1.2 Governance alignment, envelope v2.0, deterministic ordering rules
+Pipeline failure behavior:
+
+HALT — pipeline terminates immediately
+
+FALLBACK — controlled downgrade path invoked
+
+ESCALATE — governance or kernel arbitration required
+
+Failure handling must strictly follow the Cross-System Failure Matrix v1.0.
+The Pipeline System may not invent new recovery paths.
 
 ────────────────────────────────────────
 
-9. File Location
+7. Replay and Audit Support
+
+The Pipeline System must support:
+
+full execution replay using sealed artifacts
+
+deterministic stage re-evaluation
+
+audit traceability across systems
+
+governance review without re-execution
+
+Replay capability is mandatory for compliance.
+
+────────────────────────────────────────
+
+8. Governance Integration
+
+The Pipeline System is governed by:
+
+Kernel Constitutional Rules v1.2
+
+Governance Validation Protocol v1.2
+
+Cross-System Failure Matrix v1.0
+
+Execution Safety Cutoff Rules v1.0
+
+Any pipeline violation constitutes a Critical Governance Breach.
+
+────────────────────────────────────────
+
+9. Prohibited Behaviors
+
+The Pipeline System must never:
+
+skip mandatory stages
+
+reorder system execution
+
+auto-retry failed stages
+
+invoke engines or modules directly
+
+modify system outputs
+
+Violations require immediate governance action.
+
+────────────────────────────────────────
+
+10. Versioning
+
+v1.0 Initial pipeline definition
+v1.1 Audit and replay clarification
+v1.2 Strict stage sealing and failure propagation alignment
+
+────────────────────────────────────────
+
+11. File Location
 
 system/pipeline/pipeline-system-v1.2.md
 
