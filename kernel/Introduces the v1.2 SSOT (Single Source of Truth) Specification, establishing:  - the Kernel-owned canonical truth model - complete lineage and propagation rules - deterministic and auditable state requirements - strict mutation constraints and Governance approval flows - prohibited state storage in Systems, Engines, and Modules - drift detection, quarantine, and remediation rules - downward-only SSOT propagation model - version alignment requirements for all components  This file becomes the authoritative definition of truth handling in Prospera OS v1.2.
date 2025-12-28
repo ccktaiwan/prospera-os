@@ -1,0 +1,100 @@
+Prospera OS
+Documentation Style Guide v1.2
+
+File: kernel/documentation-style-guide-v1.2
+Status: Stable
+Owner: Prospera Architecture Group
+Category: Kernel Specification
+
+Purpose
+This document defines the formatting, structural, linguistic, and metadata standards for all Prospera OS documents.
+All specifications, contracts, protocols, engines, modules, maps, and integration files must comply with this guide.
+Non-compliant documents must be corrected by Governance.
+
+Language Rules
+2.1 All documents must be written in technical English.
+2.2 No mixed-language content is permitted.
+2.3 Terms must remain consistent across the entire repository.
+2.4 Natural-language explanations must remain concise and deterministic.
+
+Metadata Block Rules
+3.1 Each file must begin with the following header:
+
+Prospera OS
+<Document Title> vX.Y
+
+File: <path/to/file>
+Status: <Draft | Stable | Deprecated>
+Owner: <Team or Group>
+Category: <Kernel | Governance | System | Engine | Module | Contract | Protocol | Map>
+
+3.2 Metadata must contain no additional fields.
+3.3 Version numbers must follow Kernel-defined versioning rules.
+3.4 File paths must match repository structure exactly.
+
+Section Structure Rules
+4.1 All documents must follow numbered sections.
+4.2 Section numbers must not skip or repeat.
+4.3 Each top-level section must begin with a single line break before content.
+4.4 Subsections must follow n.n formatting.
+4.5 Section titles must not include symbols, Markdown accents, or bolding.
+
+Content Formatting Rules
+5.1 All paragraphs must be separated by exactly one blank line.
+5.2 Excessive line breaks must be removed.
+5.3 Lists must use simple numeric or hyphen formats without Markdown symbols.
+5.4 No inline styles, emphasis markers, or Markdown formatting is allowed.
+5.5 All content must follow deterministic ordering.
+
+File Naming and Location Rules
+6.1 Filenames must follow the structure:
+
+<name>-<type>-vX.Y.md
+
+6.2 All documents must reside in the correct layer directory.
+6.3 Deprecated files must be placed under /deprecated.
+6.4 No duplicate filenames are allowed.
+6.5 File paths must match the metadata File field exactly.
+
+Cross-Layer Boundary Rules
+7.1 Documents must reference only their own layer and approved dependency layers.
+7.2 System documents cannot reference Engines or Modules.
+7.3 Engine documents cannot reference Modules or Platforms.
+7.4 Module documents cannot reference Systems or Engines.
+7.5 Boundary violations must be removed immediately.
+
+Terminology Rules
+8.1 All terminology must align with Kernel version.
+8.2 Terms must remain consistent across Systems, Engines, and Modules.
+8.3 Deprecated terms must not appear in any v1.2 document.
+8.4 Terminology drift is prohibited.
+
+Version Alignment Rules
+9.1 All documents must declare version alignment to Kernel v1.2.
+9.2 Cross-version documents must be updated or removed.
+9.3 Version mismatches must be blocked by Governance.
+9.4 System, Engine, and Module must increment versions in sync with Kernel.
+
+File Ending Rules
+10.1 All documents must end with the following standard block:
+
+────────────────────────────────────────
+End of Document
+────────────────────────────────────────
+
+10.2 No extra content may appear after the End of Document block.
+10.3 A single blank line is required before and after the End of Document block.
+
+Enforcement Rules
+11.1 Governance must validate all documents before acceptance.
+11.2 Non-compliant documents must be automatically migrated.
+11.3 New documents must enforce v1.2 standard by default.
+11.4 Violations must halt document acceptance until corrected.
+11.5 This guide overrides all earlier style definitions.
+
+File Location
+kernel/documentation-style-guide-v1.2
+
+────────────────────────────────────────
+End of Document
+────────────────────────────────────────
