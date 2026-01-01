@@ -1,3 +1,15 @@
+## Canonical Entry Point
+
+This repository is governed by a single authoritative system index.
+
+All system discovery, interpretation, and AI-assisted traversal
+MUST start from:
+
+- SYSTEM_INDEX.md
+
+Any content not explicitly referenced by SYSTEM_INDEX.md
+is non-canonical by definition.
+
 #繁榮時代（Prospera OS）
 A Governance-First Enterprise Execution Operating System
 ---
