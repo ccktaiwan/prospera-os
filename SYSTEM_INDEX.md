@@ -26,105 +26,129 @@ may be permitted, blocked, or escalated.
 
 2. Canonical System Structure
 
-The following directories constitute the canonical Prospera OS system.
+The following directories constitute the Prospera OS system.
+Each directory is explicitly classified as Canonical, Reference,
+or Non-System. No other interpretation is valid.
 
-They are authoritative unless explicitly marked otherwise.
 
-
-2.1 Governance Layer (Authority & Rules)
+2.1 Governance Layer (Canonical)
 
 Path:
 governance/
 
-Description:
-Defines governance constitution, principles, roles, validation protocols,
-violation handling, version control, and semantic baselines.
-
-Canonical Artifacts:
-- GOVERNANCE.md
-- PRINCIPLES.md
-- ROLES.md
-- SEMANTIC_BASELINE_v0.2.md
+Role:
+Defines system governance constitution, authority boundaries,
+validation protocols, enforcement rules, and semantic baselines.
 
 This layer is the highest authority within Prospera OS.
 
 
-2.2 Kernel Layer (Enforcement Core)
+2.2 Kernel Layer (Canonical)
 
 Path:
 kernel/
 
-Description:
-Implements non-overridable governance enforcement, authority checks,
+Role:
+Enforces non-overridable system constraints, authority checks,
 and execution gating logic.
 
 
-2.3 Engine Layer (Execution Orchestration)
-
-Path:
-engine/
-
-Description:
-Defines how actions are executed, mediated, or constrained under
-governance rules, including AI-assisted execution flows.
-
-
-2.4 Module Layer (Functional Components)
-
-Path:
-modules/
-
-Description:
-Contains functional system modules and adapters that operate under
-kernel and engine constraints.
-
-
-2.5 System Layer (Audit, Readiness, Integration)
+2.3 System Layer (Canonical)
 
 Path:
 system/
 
-Description:
-Contains system-level audit artifacts, external readiness checks,
-and system-wide validation mechanisms.
+Role:
+Provides system-level audit artifacts, readiness checks,
+and integration validation mechanisms.
 
 
-2.6 Intellectual Property Layer (Claims & Mapping)
+2.4 Intellectual Property Layer (Canonical)
 
 Path:
 ip-claims/
 
-Description:
-Defines patent-oriented technical claims and their mappings to
-system components and governance mechanisms.
+Role:
+Defines patent-oriented technical claims and mappings
+to system components and governance mechanisms.
 
-This layer is used for intellectual property protection and
-external disclosure alignment.
-
-
-3. Non-Canonical Directories
-
-The following directories are explicitly NON-canonical.
-They do not define system authority or behavior.
-
-- CODX/                (Operation logs only)
-- demo/                (Demonstration artifacts)
-- contract/            (Legal or completion contracts)
-- meta/                (Experimental or analytical overlays)
+This layer exists for intellectual property protection
+and external disclosure alignment.
 
 
-4. Cross-Repository Relationship
+2.5 Engine Layer (Reference)
+
+Path:
+engine/
+
+Classification:
+Reference (Non-Authoritative)
+
+Role:
+Defines execution patterns and orchestration concepts
+operating under governance and kernel constraints.
+
+This layer does not define authority.
+
+
+2.6 Module Layer (Reference)
+
+Path:
+modules/
+
+Classification:
+Reference (Non-Authoritative)
+
+Role:
+Contains functional capability modules and adapters
+operating under kernel and engine mediation.
+
+This layer does not define authority.
+
+
+2.7 Meta Layer (Reference)
+
+Path:
+meta/
+
+Classification:
+Reference (Non-Authoritative)
+
+Role:
+Contains analytical, experimental, or overlay materials.
+This layer does not define system authority.
+
+
+3. Explicitly Non-System Artifacts
+
+The following directories are explicitly excluded from system authority.
+They are not subject to governance interpretation or audit.
+
+- demo/  
+  Purpose: Demonstration artifacts only.
+
+- CODX/  
+  Purpose: Operational logs and internal records.
+
+- contract/  
+  Purpose: Legal or commercial documentation external to system definition.
+
+
+4. Cross-Repository Authority Relationship
 
 Prospera OS is the sole canonical source of governance authority.
 
-Related repositories (e.g. prospera-intelligence,
-ai-governed-software-engineering, client templates)
+Related repositories (including but not limited to:
+prospera-intelligence,
+ai-governed-software-engineering,
+client templates and validation repositories)
 MUST reference Prospera OS but MUST NOT redefine system authority.
 
 
 5. Interpretation Rules
 
 - This index is the single source of truth for system discovery.
+- Canonical status is granted only through explicit inclusion here.
 - Any ambiguity is resolved in favor of governance definitions.
 - Absence from this index implies non-existence at the system level.
 
