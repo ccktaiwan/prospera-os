@@ -6,21 +6,24 @@ Owner: Prospera Architecture Group
 Scope: System-Level Index
 Authority: Root (SSOT Entry Point)
 
+Purpose
+
 This document is the canonical system index for Prospera OS.
 
 All system components, governance rules, execution engines, modules, and intellectual property claims MUST be discoverable through this index.
 
 Any document, directory, or module not referenced here is considered non-canonical and non-authoritative.
 
-System Identity
+1. System Identity
 
 Prospera OS is a governance-first enterprise execution operating system.
 
 It enforces a non-overridable governance kernel to determine whether actions — including AI-assisted generation and human execution — may be permitted, blocked, or escalated.
 
-Canonical System Structure
+2. Canonical System Structure
 
 The following directories constitute the Prospera OS system.
+
 Each directory is explicitly classified as Canonical, Reference, or Non-System.
 No other interpretation is valid.
 
@@ -99,7 +102,7 @@ Contains analytical, experimental, or overlay materials.
 
 This layer does not define system authority.
 
-AI Execution Role Declaration (Canonical)
+3. AI Execution Role Declaration (Canonical)
 
 Within Prospera OS, artificial intelligence components — including but not limited to large language models, code generation models, or inference systems — are explicitly designated as Engineering Workers, not decision-making agents.
 
@@ -121,7 +124,7 @@ All AI usage within the system operates under a governance-first execution model
 
 This role definition is canonical and applies system-wide across all layers.
 
-Explicitly Non-System Artifacts
+4. Explicitly Non-System Artifacts
 
 The following directories are explicitly excluded from system authority.
 They are not subject to governance interpretation or audit.
@@ -135,13 +138,13 @@ Purpose: Operational logs and internal records.
 contract/
 Purpose: Legal or commercial documentation external to system definition.
 
-Cross-Repository Authority Relationship
+5. Cross-Repository Authority Relationship
 
 Prospera OS is the sole canonical source of governance authority.
 
 Related repositories — including but not limited to prospera-intelligence, ai-governed-software-engineering, client templates, and validation repositories — MUST reference Prospera OS but MUST NOT redefine system authority.
 
-Interpretation Rules
+6. Interpretation Rules
 
 This index is the single source of truth for system discovery.
 
