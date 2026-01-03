@@ -10,13 +10,18 @@ SYSTEM_INDEX.md
 
 Any content not explicitly referenced by SYSTEM_INDEX.md is non-canonical by definition.
 
+Authority Boundary
+
+Authority Boundary Statement:
+This repository is the sole canonical authority for governance, execution constraints, and system definitions within the Prospera ecosystem. No other repository may redefine or supersede the authority defined here.
+
 Prospera OS — Core Three Statements
 
 Prospera OS is a governance-first enterprise execution operating system designed to determine whether any action is permitted, blocked, or escalated — not merely to generate outcomes.
 
 Within Prospera OS, all execution (including AI-assisted and human-initiated actions) is subject to non-bypassable governance and kernel enforcement; authority is never delegated to execution capability itself.
 
-Artificial intelligence in Prospera OS is institutionalized as an “engineering worker” — capable of producing reviewable work artifacts, but possessing no decision authority, no privilege escalation, and no autonomous agency.
+Artificial intelligence in Prospera OS is institutionalized as an engineering worker — capable of producing reviewable work artifacts, but possessing no decision authority, no privilege escalation, and no autonomous agency.
 
 This section is a narrative summary for orientation purposes only.
 Authoritative definitions are exclusively defined in SYSTEM_INDEX.md.
