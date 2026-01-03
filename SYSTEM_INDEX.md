@@ -37,6 +37,18 @@ Defines system governance constitution, authority boundaries, validation protoco
 
 This layer is the highest authority within Prospera OS.
 
+Governance Decision Chain (Canonical)
+
+Path:
+governance/decision-chain/PROSPERA_GOVERNABLE_DECISION_CHAIN_v1.0.md
+
+Role:
+Defines the mandatory, non-bypassable decision governance mechanism for all actions executed within Prospera OS.
+
+This decision chain operationalizes governance by enforcing a fixed sequence of identity verification, intent classification, impact modeling, safety determination, recovery handling, autonomy bounding, and execution gating.
+
+All execution contexts — human-initiated or AI-assisted — MUST comply with this decision chain prior to any state-changing operation.
+
 2.2 Kernel Layer (Canonical)
 
 Path:
