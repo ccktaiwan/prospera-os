@@ -1,0 +1,29 @@
+# =========================================================
+# Prospera OS — CODEOWNERS
+# Governance and Authority Protection
+# =========================================================
+
+# ---------------------------------------------------------
+# Global Default
+# ---------------------------------------------------------
+*       @Prospera-Architecture-Group
+
+# ---------------------------------------------------------
+# Canonical Authority Files (Highest Protection)
+# ---------------------------------------------------------
+SYSTEM_INDEX.md                     @Prospera-Architecture-Group
+/governance/**                      @Prospera-Architecture-Group
+/kernel/**                          @Prospera-Architecture-Group
+/system/**                          @Prospera-Architecture-Group
+/ip-claims/**                       @Prospera-Architecture-Group
+
+# ---------------------------------------------------------
+# Governance & Audit Artifacts
+# ---------------------------------------------------------
+/system/audits/**                   @Prospera-Architecture-Group
+/system/governance/**               @Prospera-Architecture-Group
+
+# ---------------------------------------------------------
+# Repository-Level Control
+# ---------------------------------------------------------
+/.github/CODEOWNERS                 @Prospera-Architecture-Group
