@@ -1,0 +1,112 @@
+# Document Title
+# Documentation Audit GitHub Actions Workflow
+#
+# Document Type
+# CI Governance Enforcement Workflow
+#
+# Status
+# Canonical
+#
+# Version
+# v1.0
+#
+# Date
+# 2026-01-06
+#
+# Owner / Maintained by
+# Prospera Architecture Group
+#
+# Governing Authority
+# Prospera OS Governance Kernel
+
+name: Documentation Audit
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.md"
+
+jobs:
+  documentation-audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install audit dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml markdown-it-py
+
+      - name: Load documentation lint matrix
+        run: |
+          python << 'EOF'
+          import yaml
+          from pathlib import Path
+
+          rules_path = Path("governance/standards/documentation/Documentation_Audit_Lint_Matrix_v1.0.yaml")
+
+          if not rules_path.exists():
+              raise SystemExit("Documentation lint matrix not found")
+
+          with open(rules_path) as f:
+              rules = yaml.safe_load(f)
+
+          print("Loaded documentation lint matrix version:", rules.get("version"))
+          EOF
+
+      - name: Run documentation audit
+        run: |
+          python << 'EOF'
+          import yaml
+          import re
+          from pathlib import Path
+
+          RULES_FILE = "governance/standards/documentation/Documentation_Audit_Lint_Matrix_v1.0.yaml"
+
+          with open(RULES_FILE) as f:
+              rules = yaml.safe_load(f)
+
+          violations = []
+
+          required_headers = rules["rules"]["DOC_HEADER_REQUIRED"]["required_fields"]
+          prohibited_terms = rules["rules"]["NORMATIVE_LANGUAGE_ONLY"]["prohibited_terms"]
+
+          for md in Path(".").rglob("*.md"):
+              content = md.read_text(encoding="utf-8", errors="ignore")
+
+              for field in required_headers:
+                  if field not in content:
+                      violations.append(("BLOCKER", md, f"Missing header field: {field}"))
+
+              for term in prohibited_terms:
+                  if re.search(rf"\b{term}\b", content, re.IGNORECASE):
+                      violations.append(("BLOCKER", md, f"Prohibited term used: {term}"))
+
+          for v in violations:
+              print(f"{v[0]}: {v[1]} - {v[2]}")
+
+          if any(v[0] in ("BLOCKER", "ERROR") for v in violations):
+              raise SystemExit("Documentation audit failed")
+
+          print("Documentation audit passed")
+          EOF
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-audit-report
+          path: .
