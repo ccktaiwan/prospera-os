@@ -1,0 +1,136 @@
+# Document Title
+# Documentation Governance Report Generation Workflow
+#
+# Document Type
+# CI Governance Report Generation Workflow
+#
+# Status
+# Canonical
+#
+# Version
+# v1.1
+#
+# Date
+# 2026-01-08
+#
+# Owner / Maintained by
+# Prospera Architecture Group
+#
+# Governing Authority
+# Prospera OS Governance Kernel
+
+name: Documentation Governance Report Generation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate inventory artifact
+        run: |
+          python << 'EOF'
+          import json
+          from pathlib import Path
+
+          inventory_path = Path("documentation-inventory-report.json")
+          if not inventory_path.exists():
+              raise SystemExit("Inventory artifact not found")
+
+          data = json.loads(inventory_path.read_text())
+          required_keys = ["total_files", "inventory"]
+
+          for key in required_keys:
+              if key not in data:
+                  raise SystemExit(f"Missing key in inventory: {key}")
+
+          print("Inventory validation passed")
+          EOF
+
+      - name: Compute governance metrics
+        run: |
+          python << 'EOF'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path("documentation-inventory-report.json").read_text())
+          inventory = data["inventory"]
+
+          compliant = [
+              d for d in inventory
+              if d["has_document_title"]
+              and d["has_document_type"]
+              and d["has_version"]
+              and d["has_end_marker"]
+          ]
+
+          metrics = {
+              "total_files": data["total_files"],
+              "compliant_count": len(compliant),
+              "non_compliant_count": data["total_files"] - len(compliant),
+              "compliance_percentage": round(
+                  (len(compliant) / data["total_files"]) * 100, 2
+              ) if data["total_files"] > 0 else 0
+          }
+
+          Path("computed-metrics.json").write_text(
+              json.dumps(metrics, indent=2),
+              encoding="utf-8"
+          )
+
+          print("Metrics computed")
+          EOF
+
+      - name: Render client governance report
+        run: |
+          python << 'EOF'
+          import json
+          from pathlib import Path
+          from datetime import date
+
+          metrics = json.loads(Path("computed-metrics.json").read_text())
+
+          template_path = Path(
+              "client-deliverables/documentation-governance/"
+              "Documentation_Governance_Report_v1.0_Client.md"
+          )
+
+          if not template_path.exists():
+              raise SystemExit("Client report template not found")
+
+          report = template_path.read_text()
+
+          report = report.replace("{{TOTAL_FILES}}", str(metrics["total_files"]))
+          report = report.replace("{{COMPLIANT_COUNT}}", str(metrics["compliant_count"]))
+          report = report.replace(
+              "{{NON_COMPLIANT_COUNT}}", str(metrics["non_compliant_count"])
+          )
+          report = report.replace(
+              "{{COMPLIANCE_PERCENTAGE}}",
+              f'{metrics["compliance_percentage"]}%'
+          )
+
+          output_name = (
+              f"Documentation_Governance_Report_"
+              f"{Path.cwd().name}_{date.today().strftime('%Y%m%d')}.md"
+          )
+
+          Path(output_name).write_text(report, encoding="utf-8")
+          print(f"Report generated: {output_name}")
+          EOF
+
+      - name: Upload generated report
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-governance-report
+          path: Documentation_Governance_Report_*.md
