@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prospera.dev/governance/regulatory-profiles/templates/industry_mapping.template.json",
+  "title": "Prospera Industry Regulatory Mapping Template",
+  "description": "Canonical template defining how industry classifications map to regulatory profiles and enforcement behaviors in Prospera OS.",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": [
+    "industry_id",
+    "industry_name",
+    "regulatory_profiles",
+    "default_enforcement"
+  ],
+
+  "properties": {
+    "industry_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "Stable identifier for the industry category."
+    },
+
+    "industry_name": {
+      "type": "string",
+      "description": "Human-readable industry name."
+    },
+
+    "regulatory_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "jurisdiction",
+          "priority"
+        ],
+        "properties": {
+          "profile_id": {
+            "type": "string",
+            "description": "Reference to a regulatory_profile.profile_id."
+          },
+
+          "jurisdiction": {
+            "type": "string",
+            "description": "Jurisdiction scope in which this profile applies."
+          },
+
+          "priority": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Conflict resolution priority. Lower number = higher precedence."
+          }
+        }
+      }
+    },
+
+    "default_enforcement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "failure_behavior"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["strict", "advisory"],
+          "description": "Default enforcement mode when multiple profiles apply."
+        },
+        "failure_behavior": {
+          "type": "string",
+          "enum": ["deny", "degrade", "log"],
+          "description": "Default system behavior upon regulatory violation."
+        }
+      }
+    },
+
+    "notes": {
+      "type": "string",
+      "description": "Optional human-readable guidance. Not evaluated by enforcement engines."
+    }
+  }
+}
+
