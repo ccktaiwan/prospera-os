@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prospera.dev/governance/regulatory-profiles/schemas/regulatory_profile.schema.json",
+  "title": "Prospera Regulatory Profile Schema",
+  "description": "Canonical machine-enforceable schema defining jurisdictional and industry regulatory constraints for Prospera OS governance.",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": [
+    "profile_id",
+    "version",
+    "jurisdiction",
+    "industry",
+    "effective_date",
+    "constraints",
+    "enforcement"
+  ],
+
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "Globally unique identifier for the regulatory profile."
+    },
+
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "Semantic version of the regulatory profile."
+    },
+
+    "jurisdiction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["country", "region"],
+      "properties": {
+        "country": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-2 country code."
+        },
+        "region": {
+          "type": "string",
+          "description": "Optional sub-national or regulatory region identifier."
+        }
+      }
+    },
+
+    "industry": {
+      "type": "string",
+      "description": "Industry classification identifier (e.g. healthcare, finance, education)."
+    },
+
+    "effective_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date from which this regulatory profile becomes effective."
+    },
+
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data_handling",
+        "model_usage",
+        "execution_limits"
+      ],
+      "properties": {
+        "data_handling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["storage", "transfer"],
+          "properties": {
+            "storage": {
+              "type": "string",
+              "enum": ["allowed", "restricted", "prohibited"]
+            },
+            "transfer": {
+              "type": "string",
+              "enum": ["allowed", "restricted", "prohibited"]
+            }
+          }
+        },
+
+        "model_usage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["training", "inference"],
+          "properties": {
+            "training": {
+              "type": "string",
+              "enum": ["allowed", "restricted", "prohibited"]
+            },
+            "inference": {
+              "type": "string",
+              "enum": ["allowed", "restricted", "prohibited"]
+            }
+          }
+        },
+
+        "execution_limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["automation", "human_review"],
+          "properties": {
+            "automation": {
+              "type": "boolean",
+              "description": "Whether fully automated execution is permitted."
+            },
+            "human_review": {
+              "type": "boolean",
+              "description": "Whether mandatory human review is required prior to execution."
+            }
+          }
+        }
+      }
+    },
+
+    "enforcement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "failure_behavior"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["strict", "advisory"],
+          "description": "Enforcement mode applied by governance engine."
+        },
+        "failure_behavior": {
+          "type": "string",
+          "enum": ["deny", "degrade", "log"],
+          "description": "System behavior when a constraint violation is detected."
+        }
+      }
+    },
+
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional descriptive metadata. Not evaluated for enforcement."
+    }
+  }
+}
