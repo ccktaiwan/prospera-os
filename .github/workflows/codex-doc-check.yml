@@ -1,0 +1,27 @@
+name: Codex Documentation Check
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+
+jobs:
+  codex-doc-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Prospera Codex Requirements
+        run: |
+          set -e
+          files=$(git diff --name-only origin/main | grep '\.md$' || true)
+
+          for file in $files; do
+            echo "Validating $file"
+
+            grep -q "## 0. Canonical Placement" "$file" || exit 1
+            grep -q "## 1. Document Metadata" "$file" || exit 1
+            grep -q "## 2. Engineering Specification" "$file" || exit 1
+            grep -q "## 3. Commit Contract" "$file" || exit 1
+            grep -q "## 4. Extended Description" "$file" || exit 1
+          done
