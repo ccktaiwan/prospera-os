@@ -1,0 +1,57 @@
+{
+  "$schema": "https://prospera.dev/schemas/governance/regulatory_profile.schema.json",
+  "profile_id": "healthcare_tw_baseline",
+  "profile_type": "jurisdictional",
+  "jurisdiction": {
+    "country": "TW",
+    "region": "Taiwan",
+    "legal_system": "civil_law"
+  },
+  "industry": {
+    "sector": "healthcare",
+    "subsector": "preventive_medicine",
+    "risk_classification": "high"
+  },
+  "applicable_regulations": [
+    {
+      "regulation_id": "TW_MEDICAL_CARE_ACT",
+      "scope": "medical_practice",
+      "authority": "Ministry of Health and Welfare",
+      "enforcement_level": "mandatory"
+    },
+    {
+      "regulation_id": "TW_PERSONAL_DATA_PROTECTION_ACT",
+      "scope": "personal_data",
+      "authority": "National Development Council",
+      "enforcement_level": "mandatory"
+    },
+    {
+      "regulation_id": "TW_FAIR_TRADE_ACT",
+      "scope": "advertising_and_marketing",
+      "authority": "Fair Trade Commission",
+      "enforcement_level": "conditional"
+    }
+  ],
+  "governance_constraints": {
+    "execution_restrictions": [
+      "no_medical_claims_without_certification",
+      "no_personal_data_processing_without_explicit_consent",
+      "no_automated_diagnosis_generation"
+    ],
+    "required_human_oversight": [
+      "medical_content_review",
+      "data_usage_approval"
+    ]
+  },
+  "enforcement_policy": {
+    "violation_handling": "block_execution",
+    "audit_required": true,
+    "penalty_escalation": "regulatory_authority_notification"
+  },
+  "metadata": {
+    "profile_version": "v1.0.0",
+    "status": "active",
+    "maintained_by": "Prospera Governance Group",
+    "last_reviewed": "2026-01-07"
+  }
+}
