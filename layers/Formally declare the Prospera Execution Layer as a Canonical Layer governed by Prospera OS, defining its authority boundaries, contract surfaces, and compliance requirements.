@@ -1,0 +1,109 @@
+Prospera OS — Canonical Generation Layer
+Document Type: Canonical Layer Declaration
+Authority Level: Prospera OS (Governance Kernel)
+Status: Canonical (Approved)
+Version: v1.0.0
+Owner: Prospera Architecture Group
+Last Updated: 2026-01-07
+Scope: Formal recognition and governance alignment of the Prospera Generation Layer
+
+---
+
+## 1. Purpose
+
+This document formally declares the Prospera Generation Layer as a Canonical Layer
+recognized and governed by Prospera OS.
+
+The Generation Layer is responsible for transforming validated intent and context
+into deterministic, execution-ready requests, while explicitly excluding execution,
+governance, authorization, and risk ownership responsibilities.
+
+---
+
+## 2. Canonical Layer Definition
+
+The Prospera Generation Layer is defined as:
+
+- A contract-first generation specification
+- A deterministic transformation layer between intent and execution
+- A non-autonomous, non-executing layer producing execution-ready artifacts
+- A machine-verifiable layer enforced via schemas, examples, and CI validation
+
+The Generation Layer MUST NOT be interpreted as an execution engine, policy engine,
+or decision authority.
+
+---
+
+## 3. Responsibilities and Authority Boundaries
+
+### Generation Layer Responsibilities
+The Generation Layer is authorized to:
+- Consume validated intent and contextual inputs
+- Produce deterministic, schema-compliant execution requests
+- Enforce structural and semantic correctness of generated tasks
+- Emit generation artifacts suitable for direct consumption by the Execution Layer
+
+### Explicit Non-Responsibilities
+The Generation Layer is NOT authorized to:
+- Execute tasks or trigger execution
+- Perform governance or policy decisions
+- Perform authorization or permission checks
+- Assume or accept risk
+- Modify execution behavior after request generation
+
+All such responsibilities remain under Prospera OS authority.
+
+---
+
+## 4. Contract Surfaces
+
+The Generation Layer is governed through the following canonical contract surfaces:
+
+- Generation Task Schema  
+  Repository: prospera-generation-layer  
+  Path: schemas/generation_task.schema.json
+
+- Generation Result Schema  
+  Repository: prospera-generation-layer  
+  Path: schemas/generation_result.schema.json
+
+- Generation Boundary Specification  
+  Repository: prospera-generation-layer  
+  Path: principles/EP-05-generation-boundary.md
+
+These contracts are immutable once released and MUST be consumed without reinterpretation.
+
+---
+
+## 5. Validation and Enforcement
+
+Prospera OS recognizes the Generation Layer as compliant only if:
+
+- All canonical schemas remain machine-verifiable
+- All validation examples pass CI enforcement
+- No generation behavior exceeds declared responsibility boundaries
+
+Any violation invalidates canonical compliance.
+
+---
+
+## 6. Versioning and Change Governance
+
+- Backward-incompatible changes require a major version increment.
+- Backward-compatible extensions require a minor version increment.
+- All changes must be reviewed under Prospera OS governance procedures.
+
+---
+
+## 7. Compliance Statement
+
+Any implementation, generator, or downstream system claiming compatibility with the
+Prospera Generation Layer MUST adhere to this declaration and all referenced
+canonical contracts.
+
+Prospera OS reserves the authority to revoke canonical status in case of
+non-compliance.
+
+---
+
+End of Document
