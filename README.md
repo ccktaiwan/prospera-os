@@ -8,18 +8,22 @@ All system discovery, interpretation, and AI-assisted traversal MUST start from:
 
 SYSTEM_INDEX.md
 
+
 Any content not explicitly referenced by SYSTEM_INDEX.md is non-canonical by definition.
 
 Authority Boundary
+Authority Boundary Statement
 
-Authority Boundary Statement:
-This repository is the sole canonical authority for governance, execution constraints, and system definitions within the Prospera ecosystem. No other repository may redefine or supersede the authority defined here.
+This repository is the sole canonical authority for governance, execution constraints, and system definitions within the Prospera ecosystem.
+
+No other repository, component, or downstream artifact may redefine or supersede the authority defined here.
 
 Prospera OS — Core Three Statements
 
 Prospera OS is a governance-first enterprise execution operating system designed to determine whether any action is permitted, blocked, or escalated — not merely to generate outcomes.
 
-Within Prospera OS, all execution (including AI-assisted and human-initiated actions) is subject to non-bypassable governance and kernel enforcement; authority is never delegated to execution capability itself.
+Within Prospera OS, all execution (including AI-assisted and human-initiated actions) is subject to non-bypassable governance and kernel enforcement.
+Authority is never delegated to execution capability itself.
 
 Artificial intelligence in Prospera OS is institutionalized as an engineering worker — capable of producing reviewable work artifacts, but possessing no decision authority, no privilege escalation, and no autonomous agency.
 
@@ -28,14 +32,14 @@ Authoritative definitions are exclusively defined in SYSTEM_INDEX.md.
 
 Relationship to Prospera Intelligence
 
-Prospera OS is an execution-layer operating system within the broader Prospera ecosystem.
+Prospera OS is an execution operating system within the broader Prospera ecosystem.
 
 Its existence, purpose, and governing philosophy are defined by Prospera Intelligence — the human-centric intelligence foundation that establishes why Prospera exists and which principles must remain invariant across generations of technology.
 
 Prospera OS does not define intelligence, purpose, or governance philosophy.
 It implements execution logic, enforcement mechanisms, and operational constraints derived from higher-order definitions established by Prospera Intelligence.
 
-Source of Truth:
+Source of Truth
 https://github.com/ccktaiwan/prospera-intelligence
 
 Governance First
@@ -44,11 +48,10 @@ Prospera OS is an enterprise operating system in which all execution — includi
 
 The kernel determines, in real time, whether actions may be permitted, blocked, or escalated, and cannot be bypassed by downstream logic, tools, or generation engines.
 
-Prospera OS is governed by an explicit, authority-first governance layer.
-
 All system design, execution logic, automation, delegation, and AI-assisted behavior MUST conform to the governance documents defined in:
 
 /governance/
+
 
 Where conflicts arise, interpretation flows strictly top-down.
 
@@ -80,53 +83,63 @@ A code-first project
 
 Governance precedes code. Structure precedes automation.
 
-Prospera × Codex: Five-Layer System Architecture (Locked)
+Prospera × Codex: Five-Layer System Architecture (Canonical)
 
-Prospera OS adopts a five-layer system architecture similar in abstraction to other complex enterprise systems.
+Prospera OS adopts a five-layer system architecture consistent with mature, large-scale enterprise systems.
 
-The differentiation lies not in the number of layers, but in how governance is concretely embedded into execution.
+The differentiation lies not in the number of layers, but in how authority, execution, and responsibility are explicitly separated and enforced.
 
-Layer 1 — Governance Layer
+Layer 1 — Governance / Policy Kernel
 
 Defines authority, constraints, accountability, and escalation logic
 
-Determines what AI is allowed to do and under which conditions
+Determines what actions (human or AI-assisted) are permitted under which conditions
 
-Immutable by generation engines
+Non-bypassable and immutable by downstream execution or generation engines
 
 Layer 2 — System Definition Layer
 
-Canonical system concepts, roles, entities, and operating logic
+Canonical system concepts, roles, entities, states, and operating logic
 
 Translates governance into system-readable structure
 
-Foundation for all downstream execution
+Serves as the foundation for all downstream execution and orchestration
 
-Layer 3 — Execution Layer
+Layer 3 — Engine Layer (Execution & Generation Engines)
 
-Where Codex and other engines operate
+Where bounded execution and generation engines operate
+
+Includes Codex and other computational, rule-based, evaluation, or retrieval engines
+
+Engines act as engineering workers, producing reviewable artifacts under instruction
 
 Execution is instruction-bound, traceable, and reviewable
 
-No autonomous decision-making exists at this layer
+No autonomous decision-making or authority exists at this layer
 
-Layer 4 — Workflow & Pipeline Layer
+Layer 4 — Module & Orchestration Layer
 
-Operational pipelines and task orchestration
+Composes engines into governed workflows, pipelines, threads, and containers
 
-Converts execution outputs into organizational actions
+Defines execution order, coordination, error handling, and escalation triggers
+
+Responsible for completing tasks, not generating raw capability
 
 Fully constrained by Layers 1–3
 
-Layer 5 — Learning & Optimization Loop
+Layer 5 — Artifact, Interface & Feedback Surface
 
-Continuous refinement through governed, bidirectional generation and feedback
+Where system-produced artifacts are delivered, reviewed, used, and audited
 
-Evolution occurs through governed iteration, not autonomous emergence
+Includes interfaces, documents, reports, and other human-consumable outputs
 
-Important clarification:
-“Evolution” is not a standalone system layer.
-Prospera evolves through governed mechanisms embedded across the system, not by granting AI independent evolutionary authority.
+Supports governed feedback and optimization based on produced artifacts
+
+Important clarification
+Generation does not occur at this layer.
+Generation is performed by engines (Layer 3) and delivered through governed artifacts surfaced here.
+
+Evolution occurs through governed iteration, not autonomous emergence.
 
 Document-First, Code-Later Philosophy
 
@@ -160,17 +173,19 @@ Role of Codex in Prospera OS
 
 Codex is treated as:
 
-A bounded execution engine
+A bounded execution and generation engine
 
-A generation assistant, not a decision authority
+An engineering worker producing reviewable artifacts
 
-A component operating strictly within governance constraints
+A component operating strictly within governance and system constraints
 
 Codex never:
 
 Defines system boundaries
 
 Overrides governance
+
+Possesses autonomous authority
 
 Evolves independently
 
