@@ -1,0 +1,157 @@
+policy:
+  name: Prospera Governance Policy Matrix
+  version: "1.0"
+  status: Canonical
+  authority: Prospera OS (SSOT)
+  last_updated: "2026-01-10"
+
+axes:
+  decision_authority_levels:
+    L0: Mechanical Execution
+    L1: Quantitative Optimization
+    L2: Expression and Framing
+    L3: Intent and Context Interpretation
+    L4: Governance and Boundary Enforcement
+    L5: Human Authority and Accountability
+
+  operational_reality_domains:
+    A: Representation / Language Reality
+    B: Interaction Reality
+    C: Operational Action Reality
+    D: Strategic Reality
+    E: Institutional / Legal Reality
+
+global_invariants:
+  - rule: "No engine may operate autonomously above L2"
+  - rule: "Domains D and E are non-automatable"
+  - rule: "Authority escalation through module composition is forbidden"
+  - rule: "Ambiguity results in failure, not inference"
+  - rule: "All executions must be traceable and auditable"
+
+engines:
+  RoleEngine:
+    max_authority: L2
+    max_domain: B
+  IntentEngine:
+    max_authority: L2
+    max_domain: B
+  SemanticEngine:
+    max_authority: L2
+    max_domain: A
+  TemporalEngine:
+    max_authority: L1
+    max_domain: C
+  PhaseLockEngine:
+    max_authority: L4
+    max_domain: C
+  ShiftLockEngine:
+    max_authority: L4
+    max_domain: C
+  SSOTEngine:
+    max_authority: L4
+    max_domain: D
+  ValidationEngine:
+    max_authority: L1
+    max_domain: C
+  RetrievalEngine:
+    max_authority: L1
+    max_domain: B
+  GenerationEngine:
+    max_authority: L2
+    max_domain: A
+  VoiceParsingEngine:
+    max_authority: L1
+    max_domain: B
+  MobileOSInterfaceEngine:
+    max_authority: L1
+    max_domain: B
+
+modules:
+  MOD-LANG-STRUCT:
+    parent_engine: SemanticEngine
+    max_authority: L2
+    max_domain: A
+    audit_required: true
+
+  MOD-FRAME-GEN:
+    parent_engine: GenerationEngine
+    max_authority: L2
+    max_domain: A
+    audit_required: true
+
+  MOD-RATIONALE:
+    parent_engine: GenerationEngine
+    max_authority: L2
+    max_domain: A
+    audit_required: true
+
+  MOD-VOICE-PARSE:
+    parent_engine: VoiceParsingEngine
+    max_authority: L1
+    max_domain: B
+    audit_required: true
+
+  MOD-UI-STATE:
+    parent_engine: MobileOSInterfaceEngine
+    max_authority: L1
+    max_domain: B
+    audit_required: true
+
+  MOD-SESSION-MAP:
+    parent_engine: IntentEngine
+    max_authority: L2
+    max_domain: B
+    audit_required: true
+
+  MOD-TASK-QUEUE:
+    parent_engine: TemporalEngine
+    max_authority: L1
+    max_domain: C
+    audit_required: true
+
+  MOD-FAIL-HANDLER:
+    parent_engine: ValidationEngine
+    max_authority: L1
+    max_domain: C
+    audit_required: true
+
+  MOD-PHASE-GATE:
+    parent_engine: PhaseLockEngine
+    max_authority: L4
+    max_domain: C
+    audit_required: true
+
+  MOD-SSOT-TRACE:
+    parent_engine: SSOTEngine
+    max_authority: L4
+    max_domain: D
+    audit_required: true
+    executable: false
+
+  MOD-GOV-AUDIT:
+    parent_engine: ValidationEngine
+    max_authority: L1
+    max_domain: D
+    audit_required: true
+    executable: false
+
+invocation_rules:
+  - condition: "engine.authority <= module.max_authority"
+  - condition: "engine.domain <= module.max_domain"
+  - condition: "invocation.declared == true"
+  - condition: "audit.log_present == true"
+
+violation_handling:
+  on_violation:
+    - action: halt_execution
+    - action: escalate_to_governance
+    - action: invalidate_artifact
+
+audit:
+  required_fields:
+    - engine_id
+    - module_id
+    - authority_level
+    - reality_domain
+    - timestamp
+    - responsible_human_or_context
