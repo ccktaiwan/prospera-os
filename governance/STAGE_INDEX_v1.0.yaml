@@ -1,0 +1,132 @@
+meta:
+  system_name: Prospera OS
+  classification: governance-first system engineering platform
+  layer: system
+  ssot_repository: prospera-os
+  version: v1.0
+  authority_model: human_supremacy
+  ai_role: engineering_worker_only
+  stage_model: linear_non_bypassable
+
+stages:
+
+  - stage_id: STAGE_1
+    stage_name: System Boundary
+    authority_level: system_constitutive
+    description: >
+      Defines system classification, authority exclusion,
+      and immutable boundary invariants.
+    stage_file: governance/stages/STAGE_1_SYSTEM_BOUNDARY_v1.0.md
+    artifact_paths:
+      - governance/boundary/boundary.constitution.md
+      - governance/boundary/boundary.scope.matrix.yaml
+      - governance/boundary/boundary.invariants.json
+    enforcement:
+      hook: system.init.boundary_check
+      timing: system_load
+    failure_mode:
+      on_fail: hard_stop
+      reason: boundary_violation
+    invariants:
+      - ai_has_no_authority
+      - system_scope_is_closed
+      - boundary_is_immutable
+
+  - stage_id: STAGE_2
+    stage_name: Governance Formalization
+    authority_level: governance_authority
+    description: >
+      Formalizes governance constitution, principles,
+      roles, and non-delegable decision domains.
+    stage_file: governance/stages/STAGE_2_GOVERNANCE_FORMALIZATION_v1.0.md
+    artifact_paths:
+      - governance/constitution/governance.constitution.md
+      - governance/constitution/governance.principles.table.md
+      - governance/constitution/governance.roles.matrix.yaml
+    enforcement:
+      hook: governance.authority_guard
+      timing: pre_invocation
+    failure_mode:
+      on_fail: block
+      reason: governance_authority_violation
+    invariants:
+      - human_override_supreme
+      - authority_non_delegable
+      - governance_precedes_execution
+
+  - stage_id: STAGE_3
+    stage_name: Invocation Validation
+    authority_level: invocation_gate
+    description: >
+      Validates all invocations for authority,
+      intent, context integrity, and policy compliance.
+    stage_file: governance/stages/STAGE_3_INVOCATION_VALIDATION_v1.0.md
+    artifact_paths:
+      - governance/invocation/invocation.schema.json
+      - governance/invocation/invocation.validation.rules.yaml
+      - governance/invocation/invocation.test.vectors.md
+    enforcement:
+      hook: invocation.validate
+      timing: on_input
+    decision_paths:
+      PASS: proceed_to_stage_4
+      BLOCK: terminate
+      ESCALATE: require_human_authority
+    failure_mode:
+      on_fail: block
+      reason: invalid_or_unauthorized_invocation
+    invariants:
+      - no_execution_without_pass
+      - escalation_requires_human
+      - context_integrity_required
+
+  - stage_id: STAGE_4
+    stage_name: Execution Binding
+    authority_level: execution_constraint
+    description: >
+      Binds execution strictly to worker capability set.
+      Prevents authority leakage or scope expansion.
+    stage_file: governance/stages/STAGE_4_EXECUTION_BINDING_v1.0.md
+    artifact_paths:
+      - governance/execution/execution.binding.contract.md
+      - governance/execution/execution.worker.profile.yaml
+      - governance/execution/execution.runtime.constraints.json
+    enforcement:
+      hook: execution.bind
+      timing: pre_execution
+    failure_mode:
+      on_fail: invalidate
+      reason: authority_leakage_or_scope_violation
+    invariants:
+      - ai_is_worker_only
+      - execution_is_deterministic
+      - scope_is_prebound
+
+  - stage_id: STAGE_5
+    stage_name: Generation Surface
+    authority_level: output_constraint
+    description: >
+      Constrains output to Codex-style,
+      long-form, auditable engineering specifications.
+    stage_file: governance/stages/STAGE_5_GENERATION_SURFACE_v1.0.md
+    artifact_paths:
+      - governance/generation/generation.surface.rules.md
+      - governance/generation/output.format.contract.yaml
+      - governance/generation/audit.trace.schema.json
+    enforcement:
+      hook: generation.render
+      timing: post_execution
+    failure_mode:
+      on_fail: audit_fail
+      reason: output_contract_violation
+    invariants:
+      - no_chat_style_output
+      - no_advisory_or_opinion_text
+      - audit_trace_required
+
+global_invariants:
+  - stage_pipeline_is_linear
+  - no_stage_may_be_skipped
+  - every_artifact_must_map_to_stage
+  - governance_precedes_capability
+  - ai_never_attains_authority
