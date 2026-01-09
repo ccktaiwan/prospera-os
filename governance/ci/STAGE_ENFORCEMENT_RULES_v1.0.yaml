@@ -1,0 +1,52 @@
+meta:
+  policy_name: Prospera OS Governance Enforcement
+  version: v1.0
+  source_of_truth: governance/STAGE_INDEX_v1.0.yaml
+  enforcement_level: mandatory
+  failure_policy: block_merge
+
+rules:
+
+  artifact_stage_mapping:
+    description: >
+      Every changed or added artifact must map to exactly one
+      stage defined in STAGE_INDEX.
+    enforcement:
+      type: strict
+      on_violation: fail
+
+  stage_file_existence:
+    description: >
+      Referenced stage files and artifacts must exist
+      at declared paths.
+    enforcement:
+      type: strict
+      on_violation: fail
+
+  stage_order_integrity:
+    description: >
+      No artifact may reference a later stage
+      without all prior stages being present.
+    enforcement:
+      type: strict
+      on_violation: fail
+
+  generation_surface_guard:
+    description: >
+      Any file under governance/generation must comply
+      with Stage 5 output constraints.
+    enforcement:
+      type: content_scan
+      on_violation: audit_fail
+
+  forbidden_patterns:
+    description: >
+      Prevent chat-style or advisory degradation.
+    patterns:
+      - "^建議"
+      - "^我認為"
+      - "^你可以"
+      - "^推薦"
+    enforcement:
+      type: regex_block
+      on_violation: audit_fail
