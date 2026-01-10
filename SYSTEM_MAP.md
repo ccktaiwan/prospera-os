@@ -1,245 +1,82 @@
-Prospera OS
-System Map and Repository Topology
-Version: v0.2
+# Prospera OS — System Map
+
 Status: Canonical
+Version: v1.0
 Owner: Prospera Architecture Group
+Scope: System Topology & Alignment Map
+Authority: SYSTEM_INDEX (SSOT)
 
-Purpose
+## Purpose
 
-This document defines the canonical system map of the Prospera OS ecosystem.
+This document defines the canonical system topology of Prospera OS and
+establishes explicit alignment between governance stages and the
+System Coordinates arbitration model.
 
-It provides a single authoritative view of all official Prospera repositories, their roles, authority levels, and cross-repository relationships.
+This document does not redefine governance rules.
+It maps authoritative specifications to system stages for enforcement,
+audit, and replay purposes.
 
-This document exists to:
+## Authority Reference
 
-Eliminate ambiguity across repositories
+All definitions referenced herein derive from:
 
-Establish a single control plane for navigation and interpretation
+- SYSTEM_INDEX.md (Root Authority)
+- governance/decision-chain/SYSTEM_COORDINATES.md (Arbitration Model)
 
-Enable auditability, patent traceability, and external verification
+In case of conflict, the above documents take precedence.
 
-Prevent semantic drift across AI-assisted engineering workflows
+## Stage Topology Overview
 
-This file is the primary entry point for understanding the Prospera OS system architecture.
+Prospera OS operates as a linear, non-bypassable governance pipeline:
 
-System Overview
+- Stage 01 — System Boundary
+- Stage 02 — Governance Formalization
+- Stage 03 — Invocation Validation
+- Stage 04 — Execution Binding
+- Stage 05 — Generation Surface
 
-Prospera OS is a governance-first execution operating system designed to control, constrain, and audit AI-assisted and human execution across engineering lifecycles.
+Each stage enforces distinct constraints on execution and generation.
 
-The system is composed of multiple repositories, each serving a strictly bounded role.
+## Stage × System Coordinates Alignment
 
-No single repository, other than prospera-os, is authoritative on governance.
+The following matrix defines the only valid alignment between
+governance stages and system coordinate allowances.
 
-Repository Topology
-1. Canonical Governance Core (Authoritative)
+| Stage | Vertical Allowance | Horizontal Allowance | Enforcement Intent |
+|------|---------------------|----------------------|--------------------|
+| Stage 01 — Boundary | N/A | N/A | Entry validation only |
+| Stage 02 — Formalization | V0 | H0–H3 | Risk-free exploration |
+| Stage 03 — Invocation Validation | V1–V2 | H0–H2 | Decision influence control |
+| Stage 04 — Execution Binding | V3 | H0–H1 | SOP contamination prevention |
+| Stage 05 — Generation Surface | V4 | H0 | Autonomous action lock |
 
-Repository:
+Any invocation outside the permitted coordinate range
+MUST result in BLOCK or ESCALATE.
 
-prospera-os
+## Enforcement Semantics
 
-Role:
+- Vertical escalation requires explicit governance approval.
+- Horizontal generation is strictly bounded by vertical allowance.
+- No stage may inherit permissions from a downstream stage.
+- Stage regression is prohibited.
 
-Defines all authoritative governance rules, boundaries, protocols, and semantic baselines
+## Consumption Model
 
-Acts as the system constitution and governance kernel
+This map is consumed by:
 
-Serves as the single source of truth (SSOT)
+- Execution Layer (pre-execution validation)
+- Generation Layer (generation depth gating)
+- Enforcement and audit tooling
+- Replay and determinism verification
 
-Authority Level:
+No execution or generation logic is defined here.
 
-Highest
+## Change Control
 
-Overrides all other repositories in case of conflict
+Any modification to this document requires:
 
-Key Contents:
+- Prior update to SYSTEM_COORDINATES.md (if applicable)
+- Explicit SYSTEM_INDEX registration
+- Replay validation before freeze
 
-Governance Constitution
-
-Governance Principles
-
-Authority Boundaries
-
-Enforcement and Violation Protocols
-
-Semantic Baselines
-
-System Map (this document)
-
-All governance interpretation must originate from this repository.
-
-2. Engineering Reference and Whitepaper Layer (Non-Authoritative)
-
-Repository:
-
-ai-governed-software-engineering
-
-Role:
-
-Engineering whitepaper and playbook
-
-Demonstrates how Prospera OS governance is applied across the software lifecycle
-
-Uses Prospera OS as a live reference case
-
-Authority Level:
-
-Interpretive only
-
-Not a source of governance authority
-
-Constraints:
-
-Must not introduce new governance rules
-
-Must reference Prospera OS for all canonical definitions
-
-This repository exists for education, communication, and industry dissemination.
-
-3. Intelligence and Conceptual Foundation Layer (Non-Governance)
-
-Repository:
-
-prospera-intelligence
-
-Role:
-
-Defines human-centric intelligence philosophy
-
-Provides conceptual, cognitive, and ethical framing
-
-Authority Level:
-
-Conceptual only
-
-Explicitly non-governing
-
-Constraints:
-
-Does not define execution rules
-
-Does not define authority boundaries
-
-Does not constrain AI behavior
-
-All governance authority explicitly resides in prospera-os.
-
-4. Client Adoption and Execution Layer
-4.1 Client Repository Template
-
-Repository:
-
-client-repo-template
-
-Role:
-
-Standardized template for client projects adopting Prospera OS
-
-Declares governance adoption and references Prospera OS
-
-Authority Level:
-
-Declarative only
-
-Constraints:
-
-Must not redefine governance
-
-Must reference canonical governance from Prospera OS
-
-4.2 Client Validation Repository
-
-Repository:
-
-prospera-client-validation
-
-Role:
-
-Demonstrates real-world adoption of Prospera OS governance
-
-Used for validation, audit simulation, and compliance proof
-
-Authority Level:
-
-Demonstrative only
-
-4.3 Client Violation Sample Repository
-
-Repository:
-
-prospera-client-violation-sample
-
-Role:
-
-Demonstrates governance violations and enforcement scenarios
-
-Used for audit training and system stress testing
-
-Authority Level:
-
-Illustrative only
-
-Authority Hierarchy
-
-In case of conflict, ambiguity, or omission, authority precedence is as follows:
-
-prospera-os
-
-Governance documents explicitly referenced by prospera-os
-
-Client adoption declarations
-
-Engineering whitepapers and examples
-
-No other precedence is valid.
-
-Repository Visibility Policy
-
-Public Repositories:
-
-prospera-os
-
-ai-governed-software-engineering
-
-prospera-intelligence
-
-client-repo-template
-
-Conditionally Public:
-
-prospera-client-validation
-
-prospera-client-violation-sample
-
-Private / Restricted (Recommended):
-
-Experimental engines
-
-Pre-patent implementations
-
-Internal execution tooling
-
-Search and Discovery Guidance
-
-For system-level understanding, governance interpretation, or audit review:
-
-Always start from prospera-os
-
-Use SYSTEM_MAP.md as the navigation root
-
-Do not rely on GitHub global search as a source of truth
-
-Any review conducted without reference to this document is considered incomplete.
-
-Stability and Versioning
-
-This system map is aligned with Semantic Baseline v0.2.
-
-Any repository addition, removal, or role change requires:
-
-Update to this document
-
-Semantic version increment
-
-Governance approval
-
-End of Document
+END OF CANONICAL SYSTEM MAP
