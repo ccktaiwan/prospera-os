@@ -1,57 +1,74 @@
-Prospera OS — Release Declaration
-Release Date
+# Prospera OS — Release Declaration
 
-This release is sealed on:
+Release: v1.0
+Status: Frozen
+Authority: Prospera Architecture Group
+Scope: System-Wide Freeze
+Effective Date: 2026-01-10
 
-2025-12-19 (UTC+8, Taiwan)
+## Purpose
 
-The above date represents the official public timestamp of the first canonical release of Prospera OS.
+This document declares the formal freeze of Prospera OS v1.0.
 
-Immutability Statement
+It certifies that all canonical system artifacts required for governance,
+arbitration, enforcement, replay, and audit have completed the full
+engineering lifecycle and are locked as system truth.
 
-This release (Prospera OS v1.0.0) is declared as an immutable baseline.
+No further modifications are permitted under v1.0.
 
-Canonical Status Declaration
+## Freeze Preconditions (Satisfied)
 
-Prospera OS v1.0.0 is hereby designated as the Canonical Governance Baseline.
+The following canonical artifacts have completed Definition, Formalization,
+Registration, Validation, and Audit readiness:
 
-This release establishes the definitive governance-first kernel of Prospera OS.
-All future changes MUST be additive (Delta-based) and MUST NOT modify, override,
-or retroactively reinterpret the kernel definitions, principles, or boundaries
-defined in this release.
+- SYSTEM_INDEX.md
+- SYSTEM_MAP.md
+- governance/decision-chain/SYSTEM_COORDINATES.md
+- workflow/ENGINEERING_LIFECYCLE.md
+- tools/governance-lint/POLICY_REPLAY_TESTS.md
 
-Any subsequent versions, demos, or implementations derive their legitimacy
-solely from adherence to this canonical baseline.
+All artifacts are indexed, stage-aligned, and replay-capable.
 
+## Governance State at Freeze
 
-Once published, this version must not be altered, amended, or retroactively modified,
-except through a formally declared revision process resulting in a new version identifier.
+- Governance Decision Chain: Active and non-bypassable
+- System Coordinates: Enforced
+- Stage Alignment: Locked (Stage 01–05)
+- PASS / BLOCK / ESCALATE semantics: Deterministic
+- AI Role: Engineering Worker only (no authority)
 
-All references to Prospera OS v1.0.0 in engineering, legal, patent, or investment contexts
-shall refer exclusively to this sealed state.
+## Determinism and Replay Declaration
 
-Version Evolution Rules
+Prospera OS v1.0 is declared deterministic at the governance arbitration level.
 
-Prospera OS follows semantic versioning with governance constraints:
+All governance decisions:
+- Are pre-action
+- Are replayable
+- Produce identical outcomes under identical inputs
+- Do not mutate governance state during replay
 
-v1.x
-Minor or patch-level updates that extend, clarify, or implement the v1 architecture
-without altering its core governance model or authority structure.
+Replay failure constitutes a governance violation and invalidates freeze.
 
-v2.0
-A major revision indicating a governance-level or architectural shift
-that is not backward-compatible with v1.x assumptions.
+## Modification Policy Post-Freeze
 
-No version may supersede or invalidate v1.0.0 as a historical and legal reference.
+- v1.0 artifacts MUST NOT be modified in place.
+- Any change requires initiation of a new lifecycle iteration.
+- Superseding changes MUST be released under v1.x or v2.0.
+- Backward reinterpretation is prohibited.
 
-Canonical Reference
+## Scope Limitation
 
-Prospera OS v1.0.0 is designated as the canonical reference version for:
+This freeze applies to governance, system definition, arbitration,
+and workflow specifications only.
 
-Legal and intellectual property documentation
+No implementation, SDK, runtime, or product behavior is implied.
 
-Patent filings and claim substantiation
+## Canonical Statement
 
-Investor, partner, and due-diligence review
+Prospera OS v1.0 is hereby frozen as a governance-first execution operating
+system specification.
 
-Long-term system governance integrity
+All interpretations, implementations, and extensions MUST conform to
+this frozen release.
+
+END OF RELEASE DECLARATION
